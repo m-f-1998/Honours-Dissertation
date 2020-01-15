@@ -1,0 +1,2 @@
+INSERT INTO university (university_name, university_website, server_address, contact_name, contact_email) VALUES ('Heriot-Watt University', 'https://www.hw.ac.uk', '1.1.1.1.1', 'Matthew Frankland', 'mf48@hw.ac.uk');
+INSERT INTO users (surname, forename, email, dob, university_id) VALUES ('Frankland', 'Matthew', 'mf48@hw.ac.uk', STR_TO_DATE('15-04-1998', '%d-%m-%Y'), 1);

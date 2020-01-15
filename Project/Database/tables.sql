@@ -1,0 +1,23 @@
+SET FOREIGN_KEY_CHECKS=0;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS university;
+SET FOREIGN_KEY_CHECKS=1;
+
+CREATE TABLE IF NOT EXISTS university (
+  university_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  university_name VARCHAR(100) NOT NULL UNIQUE,
+  university_website VARCHAR(100),
+  server_address VARCHAR(100) NOT NULL UNIQUE,
+  contact_name VARCHAR (100) NOT NULL,
+  contact_email VARCHAR(50) NOT NULL
+) ENGINE = INNODB;
+
+CREATE TABLE IF NOT EXISTS users (
+  contact_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  surname VARCHAR(50) NOT NULL,
+  forename VARCHAR(50),
+  email VARCHAR(50) NOT NULL UNIQUE,
+  dob DATE,
+  university_id INT(11),
+  FOREIGN KEY (university_id) REFERENCES university(university_id)
+) ENGINE = INNODB;
