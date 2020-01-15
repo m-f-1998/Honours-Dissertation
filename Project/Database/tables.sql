@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS users (
   contact_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   surname VARCHAR(50) NOT NULL,
   forename VARCHAR(50),
+  profile_pic_link VARCHAR(100),
   email VARCHAR(50) NOT NULL UNIQUE,
   dob DATE,
   university_id INT(11),
