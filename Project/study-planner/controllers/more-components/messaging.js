@@ -1,0 +1,38 @@
+import { Text, View, Button, StatusBar, Alert } from 'react-native';
+
+import Validity_Controller from "../tab-components/validity-controller.js";
+import OfflineNotice from "../assets/no-connection/component.js";
+
+class Messaging_Screen extends Validity_Controller {
+  static navigationOptions = {
+    headerShown: false
+  };
+
+  render() {
+    return (
+      <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
+        <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content"/>
+        <OfflineNotice />
+        { !this.state.emailValid === true ? // E-Mail Not Valid
+          <View style={ { marginTop: 10, justifyContent: 'center', alignItems: 'center' } }>
+            <Text style={ { textAlign: 'center' } }>E-Mail Not Valid!</Text>
+            <Button title="Resend Validation E-Mail" onPress={ () => Alert.alert('Simple Button pressed')} />
+            <Button title="Refresh" onPress={ () => this.update_validitity() } />
+          </View>
+        : !this.state.educationValid ? // Education Not Valid Not Valid
+          <View>
+            <Text style={ { textAlign: 'center' } }>Education Not Valid!</Text>
+            <Button title="Login To Education" onPress={ () => Alert.alert( 'Simple Button pressed' ) } />
+            <Button title="Refresh" onPress={ () => this.update_validitity() } />
+          </View>
+        : ( this.state.emailValid && this.state.educationValid ) &&
+          <View>
+            <Text>Messaging!</Text>
+          </View>
+        }
+      </View>
+    )
+  }
+}
+
+export default Messaging_Screen;
