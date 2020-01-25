@@ -72,7 +72,7 @@ class More_Screen extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={ styles.container }>
-        <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content"/>
+        <StatusBar backgroundColor="#FFFFFF" barStyle="light-content"/>
         <OfflineNotice />
         <NavigationEvents onDidFocus={ () => this.refreshUser() } />
         <View style={ styles.buttonsOne }>

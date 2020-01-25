@@ -19,7 +19,11 @@ import styles from "./styles.js";
 class EditProfileScreen extends React.Component {
   static navigationOptions = {
     gestureEnabled: false,
-    title: ''
+    title: '',
+    headerTintColor: 'white',
+    headerStyle: {
+      backgroundColor: '#0B345A'
+    }
   };
 
   state = {
@@ -55,16 +59,25 @@ class EditProfileScreen extends React.Component {
 
   checkDeviceForHardware = async () => { // Check Device Has The Hardware For Biometrics
     let compatible = await LocalAuthentication.hasHardwareAsync();
-    this.setState( { compatible } );
+    this.setState( { compatible: compatible } );
   };
 
   checkForBiometrics = async () => { // Check Device Has A Biometric Scan To Use
     let biometrics = await LocalAuthentication.isEnrolledAsync();
-    this.setState( { biometrics } );
+    this.setState( { biometrics: biometrics } );
   };
 
   setBiometrics = async ( value ) => {
-    SecureStore.setItemAsync( "biometrics", String( value ) );
+    if ( value ) {
+      if ( this.state.biometrics && this.state.compatible ) {
+        SecureStore.setItemAsync( "biometrics", String( value ) );
+      } else {
+        Alert.alert( 'Biometrics Is Not Available On This Device', '', [ { text: 'OK' } ] );
+      }
+    } else {
+      this.setState( { biometrics: false } );
+      SecureStore.setItemAsync( "biometrics", String( value ) );
+    }
   };
 
   setTextInput = async () => {
@@ -139,14 +152,14 @@ class EditProfileScreen extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView style={ styles.container } behavior="padding" keyboardVerticalOffset="145">
-        <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content"/>
+        <StatusBar backgroundColor="#FFFFFF" barStyle="light-content"/>
         <OfflineNotice />
         <View style={ styles.form }>
-          <TextInput value={ this.state.forename } placeholder="Forename" style={ styles.textInput } onChangeText={ text => this.setState( { forename: text, forename_changed: true } ) } />
-          <TextInput value={ this.state.surname } placeholder="Surname" style={ styles.textInput } onChangeText={ text => this.setState( { surname: text, surname_changed: true } ) } />
-          <TextInput value={ this.state.email } autoCorrect={ false } autoCapitalize = 'none' keyboardType="email-address" placeholder="E-Mail" style={ styles.textInput } onChangeText={ text => this.setState( { email: text, email_changed: true } ) } />
-          <TextInput value={ this.state.link } autoCorrect={ false } autoCapitalize = 'none' placeholder="Profile Picture Link" style={ styles.textInput } onChangeText={ text => this.setState( { link: text, link_changed: true } ) } />
-          { this.state.compatible ?
+          <TextInput placeholderTextColor="#C7C7CD" value={ this.state.forename } placeholder="Forename" style={ styles.textInput } onChangeText={ text => this.setState( { forename: text, forename_changed: true } ) } />
+          <TextInput placeholderTextColor="#C7C7CD" value={ this.state.surname } placeholder="Surname" style={ styles.textInput } onChangeText={ text => this.setState( { surname: text, surname_changed: true } ) } />
+          <TextInput placeholderTextColor="#C7C7CD" value={ this.state.email } autoCorrect={ false } autoCapitalize = 'none' keyboardType="email-address" placeholder="E-Mail" style={ styles.textInput } onChangeText={ text => this.setState( { email: text, email_changed: true } ) } />
+          <TextInput placeholderTextColor="#C7C7CD" value={ this.state.link } autoCorrect={ false } autoCapitalize = 'none' placeholder="Profile Picture Link" style={ styles.textInput } onChangeText={ text => this.setState( { link: text, link_changed: true } ) } />
+          { this.state.compatible && this.state.biometrics ?
               <View style={ styles.switch }>
                 <Text style={ styles.text }>Turn On Biometrics:{"\n"}</Text>
                 <Switch value={ this.state.compatible && this.state.biometrics } onValueChange={ v => { this.setBiometrics( v ); } } />

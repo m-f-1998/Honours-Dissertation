@@ -16,10 +16,17 @@ import styles from "./styles.js";
 */
 
 class Notes_Editor_Screen extends React.Component {
-  static navigationOptions = {
+  static navigationOptions = ( { navigation } ) => ({
     gestureEnabled: false,
-    title: ''
-  };
+    title: '',
+    headerTintColor: 'white',
+    headerLeft: () => (
+      <Button onPress={ () => (navigation.getParam('runSave')(), navigation.goBack() ) } title="< Notes" color="#fff" style={ { fontWeight: 'bold' } } />
+    ),
+    headerStyle: {
+      backgroundColor: '#0B345A'
+    }
+  });
 
   state = {
     noteText: '',
@@ -28,6 +35,8 @@ class Notes_Editor_Screen extends React.Component {
 
   componentDidMount() {
     this.setState( { isMounted: true } )
+    const { navigation } = this.props
+    navigation.setParams( { runSave: () => this.save( false ) } )
     this.get_note();
   }
 
@@ -61,7 +70,7 @@ class Notes_Editor_Screen extends React.Component {
     });
   }
 
-  save = async () => {
+  save = async ( alert ) => {
     let html = await this.richText.getContentHtml();
     var id = await SecureStore.getItemAsync( 'session_id' );
     const form_data = new FormData();
@@ -78,7 +87,7 @@ class Notes_Editor_Screen extends React.Component {
           if ( response[ 'error' ] ) {
             Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
           } else {
-            if ( response[ 'message' ] ) {
+            if ( response[ 'message' ] && alert ) {
               Alert.alert( 'Note Saved', '', [ { text: 'OK' } ] );
             }
           }
@@ -93,10 +102,10 @@ class Notes_Editor_Screen extends React.Component {
   render() {
     return (
       <SafeAreaView style={ styles.editorContainer }>
-        <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content"/>
+        <StatusBar backgroundColor="#FFFFFF" barStyle="light-content"/>
         <OfflineNotice />
         <View style={styles.nav}>
-          <Button title="Save" onPress={this.save}/>
+          <Button title="Save" color='white' onPress={ () => this.save( true ) }/>
         </View>
         <ScrollView style={ styles.scroll }>
           <RichEditor ref={ rf => this.richText = rf } initialContentHTML={ this.state.noteText } style={ styles.rich } />

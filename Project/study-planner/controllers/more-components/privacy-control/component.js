@@ -19,7 +19,11 @@ import styles from "./styles.js";
 class Privacy_Control_Screen extends React.Component {
   static navigationOptions = {
     gestureEnabled: false,
-    title: ''
+    title: '',
+    headerTintColor: 'white',
+    headerStyle: {
+      backgroundColor: '#0B345A'
+    }
   };
 
   state = {
@@ -63,7 +67,7 @@ class Privacy_Control_Screen extends React.Component {
   render() {
     return (
       <View style={ styles.container } behavior="padding" keyboardVerticalOffset="175">
-        <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content"/>
+        <StatusBar backgroundColor="#FFFFFF" barStyle="light-content"/>
         <OfflineNotice />
         <View style={ styles.switch }>
           <Text style={ styles.text }>Allow Notifications:{"\n"}</Text>
@@ -74,7 +78,7 @@ class Privacy_Control_Screen extends React.Component {
           <Switch value={ this.state.details } onValueChange={ v => { this.setPrivacy( v ); } } />
         </View>
         <View style={ { alignItems: 'center', width: '100%', position: 'absolute', bottom: 10 } }>
-          <Text style={ { textAlign: 'center', fontStyle: 'italic' } }>
+          <Text style={ { textAlign: 'center', fontStyle: 'italic', color: 'white' } }>
             Members Of Your Shared Groups Will Always Be Able To View Your Email Adress
           </Text>
         </View>

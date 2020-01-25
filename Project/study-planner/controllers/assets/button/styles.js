@@ -33,14 +33,13 @@ export default StyleSheet.create( {
     color: "black",
   },
   mainText: {
-    color: "#FFF"
+    color: "white",
+    fontWeight: 'bold'
   },
   nonMainContainer: {
-    backgroundColor: 'transparent',
-    borderColor: "black"
+    backgroundColor: 'white'
   },
   mainContainer: {
-    backgroundColor: "#428AF8",
-    borderColor: "rgba(255,255,255,0.7)"
+    backgroundColor: "#6b41de"
   }
 } );

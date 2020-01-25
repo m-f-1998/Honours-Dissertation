@@ -58,6 +58,7 @@ class LoginScreen extends ParentComponent {
   }
 
   componentDidMount() {
+    this.email_ref.current.focus();
     SecureStore.getItemAsync( 'biometrics' ).then( bio => { // Offer Login By Biometrics If Enabled
       if ( bio == "true" ) {
         LocalAuthentication.authenticateAsync().then( result => {
@@ -105,10 +106,12 @@ class LoginScreen extends ParentComponent {
   render() {
     return (
       <KeyboardAvoidingView style={ styles.container } behavior="padding" keyboardVerticalOffset="-100">
-        <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content"/>
+        <StatusBar backgroundColor="#FFFFFF" barStyle="light-content"/>
         <OfflineNotice />
         <View style={ styles.form }>
           <TextInput
+            placeholderTextColor="#C7C7CD"
+            ref={ this.email_ref }
             value={ this.state.email }
             onChangeText={ ( email ) => this.setState( { email } ) }
             onSubmitEditing={ this.handleEmailSubmitPress }
@@ -123,6 +126,7 @@ class LoginScreen extends ParentComponent {
             style={ styles.errorText }>{ ( !this.state.email && this.state.email_selected ? "Email is Required" : undefined ) || "" }
           </Text>
           <TextInput
+            placeholderTextColor="#C7C7CD"
             ref={ this.password_ref }
             value={ this.state.pass }
             style={ styles.textInput }
@@ -147,7 +151,7 @@ class LoginScreen extends ParentComponent {
             disabled={ this.state.processing || !this.state.email }
           />
           <Button disabled={ this.state.processing } notMain={ true } label={ "< Go Back" } onPress={() => this.props.navigation.goBack()} />
-          <ActivityIndicator style={ { paddingTop: 10 } } size="small" color="#0000ff" animating={ this.state.processing } />
+          <ActivityIndicator style={ { paddingTop: 10 } } size="small" color="#6b41de" animating={ this.state.processing } />
         </View>
       </KeyboardAvoidingView>
     );

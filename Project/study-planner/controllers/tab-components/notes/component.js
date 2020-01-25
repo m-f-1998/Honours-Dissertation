@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StatusBar, ScrollView, Button, Alert } from 'react-native';
+import { Text, View, StatusBar, ScrollView, Button, Alert, TouchableOpacity } from 'react-native';
 
 import { NavigationActions, StackActions } from 'react-navigation';
 import * as SecureStore from 'expo-secure-store';
@@ -145,10 +145,10 @@ class Notes_Screen extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={ styles.container } >
-        <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content"/>
+        <StatusBar backgroundColor="#FFFFFF" barStyle="light-content"/>
         <OfflineNotice />
         <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} bounces={ false } >
-          <View style={ [ styles.row, { backgroundColor: 'darkgray' } ] }>
+          <View style={ [ styles.row, { backgroundColor: '', borderTopWidth: 0 } ] }>
             <CustomButton label={ "Add A New Note" } onPress={ () => this.new_note( this.state.notes ) } />
           </View>
           { ( this.state.notes.length == 0 ) ?
@@ -159,7 +159,15 @@ class Notes_Screen extends React.Component {
             <View key={ note["id"] } style={ [ styles.row, { backgroundColor: '' } ] }>
               <Text style={ styles.rowText } >{ note[ 'title' ] }{ "\n" }{ note['creation_date'] }</Text>
               <Button color="red" title="Delete" onPress={ () => this.delete_note( note ) } style={ styles.rowDelete } />
-              <Button title="Open" onPress={ () => navigate( "Notes_Editor", { id: note["id"] } ) } style={ styles.rowButton } />
+              <TouchableOpacity onPress={ () => navigate( "Notes_Editor", { id: note["id"] } ) } style={ {     width: "18%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  paddingVertical: 5,
+                  borderRadius: 4,
+                  paddingLeft: 5,
+                  paddingRight: 5,
+                  marginLeft: 5,
+                  backgroundColor: '#6b41de' } }><Text style={styles.rowButton}>Open ></Text></TouchableOpacity>
             </View>
           )}
         </ScrollView>

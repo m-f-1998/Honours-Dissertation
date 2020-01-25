@@ -16,7 +16,8 @@ export default StyleSheet.create( {
     justifyContent: 'center',
     width: '100%',
     paddingRight: 10,
-    paddingLeft: 10
+    paddingLeft: 10,
+    backgroundColor: '#0B345A'
   },
   form: {
     flex: 1,
@@ -25,7 +26,8 @@ export default StyleSheet.create( {
   },
   text: {
     textAlign: 'center',
-    marginTop: 20
+    marginTop: 20,
+    color: 'white'
   },
   switch: {
     alignItems: 'center',

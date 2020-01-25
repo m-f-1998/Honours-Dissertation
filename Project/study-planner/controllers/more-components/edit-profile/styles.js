@@ -16,17 +16,19 @@ export default StyleSheet.create( {
     justifyContent: 'center',
     width: '100%',
     paddingRight: 10,
-    paddingLeft: 10
+    paddingLeft: 10,
+    backgroundColor: '#0B345A'
   },
   textInput: {
     width: '100%',
     height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
     padding: 10,
     marginTop: 10,
     marginBottom: 10,
-    textAlign: 'center'
+    textAlign: 'center',
+    borderColor: "#BEBEBE",
+    borderBottomWidth: 0.4,
+    color: '#FFF'
   },
   form: {
     flex: 1,
@@ -36,7 +38,8 @@ export default StyleSheet.create( {
   text: {
     height: 20,
     textAlign: 'center',
-    paddingBottom: 30
+    paddingBottom: 30,
+    color: 'white'
   },
   switch: {
     alignItems: 'center',

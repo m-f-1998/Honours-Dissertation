@@ -20,6 +20,10 @@ import { NavigationActions, StackActions } from 'react-navigation';
 */
 
 class SignUpScreen extends ParentComponent {
+  componentDidMount() {
+    this.email_ref.current.focus();
+  }
+
   handleRequest = ( response ) => {
     if ( response[ 'error' ] ) {
       Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
@@ -68,11 +72,13 @@ class SignUpScreen extends ParentComponent {
   render() {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset="-100">
-        <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content"/>
+        <StatusBar backgroundColor="#FFFFFF" barStyle="light-content"/>
         <OfflineNotice />
         <View style={ styles.form }>
           <TextInput
+              placeholderTextColor="#C7C7CD"
               value={ this.state.email }
+              ref={ this.email_ref }
               onChangeText={ ( email ) => this.setState( { email } ) }
               onSubmitEditing={ this.handleEmailSubmitPress }
               style={ styles.textInput }
@@ -84,6 +90,7 @@ class SignUpScreen extends ParentComponent {
           />
           <Text style={ styles.errorText }>{ ( !this.state.email && this.state.email_selected ? "Email is Required" : undefined ) || "" }</Text>
           <TextInput
+            placeholderTextColor="#C7C7CD"
             ref={ this.password_ref }
             value={ this.state.pass }
             style={ styles.textInput }
@@ -96,13 +103,15 @@ class SignUpScreen extends ParentComponent {
           />
           <Text style={ styles.errorText }>{ ( !this.state.pass && this.state.pass_selected ? "Password is Required" : undefined ) || "" }</Text>
           <CheckBox
-            textStyle={ { padding: 3 } }
+            textStyle={ { padding: 3, color: 'white' } }
+            containerStyle={ { backgroundColor: '#0B345A' } }
             title='I Consent To This Application Contacting Me By Email'
             checked={this.state.contact}
             onPress={ () => this.setState({contact: !this.state.contact } ) }
           />
           <CheckBox
-            textStyle={ { padding: 3 } }
+            textStyle={ { padding: 3, color: 'white' } }
+            containerStyle={ { backgroundColor: '#0B345A' } }
             title='I Agree To The Terms & Conditions Of This Application'
             checked={this.state.terms}
             onPress={ () => this.setState( { terms: !this.state.terms } ) }

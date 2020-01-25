@@ -3,7 +3,6 @@ import { View, KeyboardAvoidingView, Image, StatusBar, Linking } from 'react-nat
 
 import imageLogo from "../../assets/images/logo.png";
 import Button from "../assets/button/component.js";
-import OfflineNotice from "../assets/no-connection/component.js";
 import styles from "./styles.js";
 
 /*
@@ -28,8 +27,7 @@ class HomeScreen extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <KeyboardAvoidingView style={ styles.container } behavior="padding">
-        <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content"/>
-        <OfflineNotice />
+        <StatusBar backgroundColor="#000" barStyle="light-content"/>
         <Image source={ imageLogo } style={ styles.logo } />
         <View style={ styles.form }>
           <Button label={ "Log In" } onPress={ () => navigate( 'Login', { name: 'Login' } ) } />

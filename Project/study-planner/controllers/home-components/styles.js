@@ -11,14 +11,15 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create( {
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#0B345A',
     alignItems: 'center',
     justifyContent: 'center',
   },
   textInput: {
     height: 30,
     borderColor: "#BEBEBE",
-    borderBottomWidth: 0.4
+    borderBottomWidth: 0.4,
+    color: '#FFF'
   },
   logo: {
     flex: 1,

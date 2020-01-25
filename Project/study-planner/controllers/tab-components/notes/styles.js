@@ -13,12 +13,13 @@ export default StyleSheet.create( {
     position: 'absolute',
     paddingTop: '15%',
     flex: 1,
+    backgroundColor: '#0B345A',
     height: Dimensions.get( 'window' ).height
   },
   row: {
-    borderTopColor: 'black',
+    borderTopColor: 'white',
     borderTopWidth: 0.5,
-    borderBottomColor: 'black',
+    borderBottomColor: 'white',
     borderBottomWidth: 0.5,
     flexDirection: 'row',
     width: '100%',
@@ -28,16 +29,20 @@ export default StyleSheet.create( {
   noNote: {
     flex: 1,
     justifyContent: 'center',
+    color: 'white',
+    fontWeight: 'bold',
     textAlign: 'center'
   },
   rowText: {
     flex: 1,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    color: 'white',
+    fontWeight: 'bold'
   },
   rowButton: {
-    flex: 1,
-    width: '50%',
-    justifyContent: 'flex-end'
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold'
   },
   rowDelete: {
     flex: 1,
@@ -46,12 +51,13 @@ export default StyleSheet.create( {
   },
   editorContainer: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#0B345A',
   },
   nav: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: 5,
+    backgroundColor: '#0B345A',
   },
   rich: {
     minHeight: 300,
@@ -59,7 +65,8 @@ export default StyleSheet.create( {
   },
   richBar: {
     height: 50,
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#0B345A',
+    color: 'white'
   },
   scroll : {
     backgroundColor:'#ffffff'

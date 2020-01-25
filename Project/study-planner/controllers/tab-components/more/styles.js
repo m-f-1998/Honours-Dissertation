@@ -13,7 +13,8 @@ export default StyleSheet.create( {
     flex: 1,
     paddingLeft: '2%',
     paddingRight: '2%',
-    paddingTop: '19%'
+    paddingTop: '19%',
+    backgroundColor: '#0B345A'
   },
   buttonsOne: {
     paddingBottom: '4.5%',
@@ -29,7 +30,8 @@ export default StyleSheet.create( {
   accountName: {
     paddingBottom: '4%',
     paddingTop: '2%',
-    textAlign: 'center'
+    textAlign: 'center',
+    color: 'white'
   },
   buttonsTwo: {
     paddingBottom: '7.5%',
@@ -43,6 +45,7 @@ export default StyleSheet.create( {
   },
   footerText: {
     textAlign: 'center',
-    fontStyle: 'italic'
+    fontStyle: 'italic',
+    color: 'white'
   }
 } );

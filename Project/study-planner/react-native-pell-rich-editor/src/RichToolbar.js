@@ -110,6 +110,8 @@ export default class RichToolbar extends Component {
 
   _defaultRenderAction(action, selected) {
     const icon = this._getButtonIcon(action);
+    console.log(action);
+    console.log(icon);
     return (
       <TouchableOpacity
           key={action}
@@ -119,7 +121,7 @@ export default class RichToolbar extends Component {
           ]}
           onPress={() => this._onPress(action)}
       >
-        {icon ? <Image source={icon} style={{tintColor: selected ? this.props.selectedIconTint : this.props.iconTint}}/> : null}
+        {icon ? <Image source={icon} style={{tintColor: selected ? this.props.selectedIconTint : 'white' } }/> : null}
       </TouchableOpacity>
     );
   }

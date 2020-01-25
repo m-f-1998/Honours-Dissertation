@@ -24,6 +24,7 @@ class ParentComponent extends React.Component {
   };
 
   password_ref = React.createRef();
+  email_ref = React.createRef();
   submitData = () => {
     if (this.password_ref.current) {
       this.password_ref.current.focus();
