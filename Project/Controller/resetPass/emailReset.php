@@ -3,7 +3,7 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET');
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/dissertation/userFunctions/dbOperation.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/dissertation/login/dbOperation.php';
 $response = array ();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
 
         $response['error'] = true;
-        $response['message'] = "E-Mail Is Not Set";
+        $response['message'] = "All Parameters Required";
 
     }
 

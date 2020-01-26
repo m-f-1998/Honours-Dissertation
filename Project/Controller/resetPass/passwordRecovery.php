@@ -8,10 +8,10 @@
 <!DOCTYPE html>
 
 <head>
-    <script src='http://code.jquery.com/jquery-1.9.1.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script>
     $(function () {
-      $('form').on('submit', function (e) {
+      $('#form').on('submit', function (e) {
         e.preventDefault();
         $.ajax({
             type: 'POST',
@@ -29,7 +29,7 @@
 <h2>Reset Your Account Password</h2>
 <div class='container'>
     <div class='regisFrm'>
-        <form action='userAccount.php' method='post'>
+        <form id="form" method='post'>
             <input type='password' name='password' placeholder='NEW PASSWORD' required=''>
             <input type='password' name='confirm_password' placeholder='CONFIRM PASSWORD' required=''>
             <div class='send-button'>

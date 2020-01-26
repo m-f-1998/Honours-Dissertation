@@ -88,7 +88,7 @@ class More_Screen extends React.Component {
           </Text>
           <Button label={ "Edit Profile" } onPress={ () => navigate( "Edit_Profile" ) } />
           <Button label={ "Privacy Controls" } onPress={ () => navigate( "Privacy" ) } />
-          <Button label={ "Instant Messaging" } />
+          <Button label={ "Instant Messaging" } onPress={ () => navigate( "Messaging" ) } />
         </View>
         <View style={ styles.buttonsTwo }>
           <Button label={ "Terms & Conditions" } onPress={ this.goToTerms } />

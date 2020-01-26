@@ -21,7 +21,7 @@ class Notes_Editor_Screen extends React.Component {
     title: '',
     headerTintColor: 'white',
     headerLeft: () => (
-      <Button onPress={ () => (navigation.getParam('runSave')(), navigation.goBack() ) } title="< Notes" color="#fff" style={ { fontWeight: 'bold' } } />
+      <Button onPress={ () => ( navigation.getParam( 'runSave' )(), navigation.goBack() ) } title="< Notes" color="#fff" style={ { fontWeight: 'bold' } } />
     ),
     headerStyle: {
       backgroundColor: '#0B345A'
@@ -50,7 +50,7 @@ class Notes_Editor_Screen extends React.Component {
     form_data.append( 'session_id', id );
     form_data.append( 'note_id', this.props.navigation.state.params[ "id" ] );
     var that = this;
-    const url = 'https://www.matthewfrankland.co.uk/dissertation/userFunctions/getNote.php';
+    const url = 'https://www.matthewfrankland.co.uk/dissertation/userFunctions/notes/getNote.php';
     require("../../assets/fetch.js").getFetch( url, form_data, function ( err, response, timeout ) {
       if ( timeout ) {
         Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
@@ -77,7 +77,7 @@ class Notes_Editor_Screen extends React.Component {
     form_data.append( 'session_id', id );
     form_data.append( 'note_id', this.props.navigation.state.params[ "id" ] );
     form_data.append( 'note_text', html );
-    const url = 'https://www.matthewfrankland.co.uk/dissertation/userFunctions/saveNote.php';
+    const url = 'https://www.matthewfrankland.co.uk/dissertation/userFunctions/notes/saveNote.php';
     require("../../assets/fetch.js").getFetch( url, form_data, function ( err, response, timeout ) {
       if ( timeout ) {
         Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );

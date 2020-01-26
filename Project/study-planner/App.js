@@ -33,7 +33,7 @@ Notes_Navigator.navigationOptions = {
 
 import More_Screen from "./controllers/tab-components/more/component.js";
 import Edit_Profile_Screen from "./controllers/more-components/edit-profile/component.js";
-import Messaging_Screen from "./controllers/more-components/messaging.js";
+import Messaging_Screen from "./controllers/more-components/messages/component.js";
 import Privacy_Screen from "./controllers/more-components/privacy-control/component.js";
 
 const More_Navigator = createStackNavigator( {

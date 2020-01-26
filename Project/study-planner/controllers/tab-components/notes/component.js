@@ -62,7 +62,7 @@ class Notes_Screen extends React.Component {
     const form_data = new FormData();
     form_data.append( 'session_id', id );
     var that = this;
-    const url = 'https://www.matthewfrankland.co.uk/dissertation/userFunctions/notes.php';
+    const url = 'https://www.matthewfrankland.co.uk/dissertation/userFunctions/notes/notes.php';
     require("../../assets/fetch.js").getFetch( url, form_data, function ( err, response, timeout ) {
       if ( timeout ) {
         Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
@@ -88,7 +88,7 @@ class Notes_Screen extends React.Component {
     form_data.append( 'session_id', id );
     form_data.append( 'note_id', note[ "id" ] );
     var that = this;
-    const url = 'https://www.matthewfrankland.co.uk/dissertation/userFunctions/deleteNote.php';
+    const url = 'https://www.matthewfrankland.co.uk/dissertation/userFunctions/notes/deleteNote.php';
     require("../../assets/fetch.js").getFetch( url, form_data, function ( err, response, timeout ) {
       if ( timeout ) {
         Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
@@ -111,7 +111,7 @@ class Notes_Screen extends React.Component {
     });
   };
 
-  new_note = async function() { // Add A New Note With No Body To It
+  async new_note() { // Add A New Note With No Body To It
     var id = await SecureStore.getItemAsync( 'session_id' );
     prompt( 'Enter Note Title', '', [ {text: 'Cancel', style: 'cancel'},
      { text: 'OK', onPress: noteTitle => {
@@ -119,7 +119,7 @@ class Notes_Screen extends React.Component {
        form_data.append( 'session_id', id );
        form_data.append( 'note_title', noteTitle );
        var that = this;
-       const url = 'https://www.matthewfrankland.co.uk/dissertation/userFunctions/newNote.php';
+       const url = 'https://www.matthewfrankland.co.uk/dissertation/userFunctions/notes/newNote.php';
        require("../../assets/fetch.js").getFetch( url, form_data, function ( err, response, timeout ) {
          if ( timeout ) {
            Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
@@ -147,8 +147,8 @@ class Notes_Screen extends React.Component {
       <View style={ styles.container } >
         <StatusBar backgroundColor="#FFFFFF" barStyle="light-content"/>
         <OfflineNotice />
-        <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} bounces={ false } >
-          <View style={ [ styles.row, { backgroundColor: '', borderTopWidth: 0 } ] }>
+        <ScrollView showsHorizontalScrollIndicator={ false } showsVerticalScrollIndicator={ false } bounces={ false } >
+          <View style={ [ styles.row, { borderTopWidth: 0 } ] }>
             <CustomButton label={ "Add A New Note" } onPress={ () => this.new_note( this.state.notes ) } />
           </View>
           { ( this.state.notes.length == 0 ) ?
@@ -156,18 +156,10 @@ class Notes_Screen extends React.Component {
                 <Text style={ styles.noNote } >No Notes Found</Text>
             </View>
           : this.state.notes.map( note =>
-            <View key={ note["id"] } style={ [ styles.row, { backgroundColor: '' } ] }>
+            <View key={ note["id"] } style={ styles.row }>
               <Text style={ styles.rowText } >{ note[ 'title' ] }{ "\n" }{ note['creation_date'] }</Text>
-              <Button color="red" title="Delete" onPress={ () => this.delete_note( note ) } style={ styles.rowDelete } />
-              <TouchableOpacity onPress={ () => navigate( "Notes_Editor", { id: note["id"] } ) } style={ {     width: "18%",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  paddingVertical: 5,
-                  borderRadius: 4,
-                  paddingLeft: 5,
-                  paddingRight: 5,
-                  marginLeft: 5,
-                  backgroundColor: '#6b41de' } }><Text style={styles.rowButton}>Open ></Text></TouchableOpacity>
+              <TouchableOpacity onPress={ () => this.delete_note( note ) } style={ styles.deleteTouch }><Text style={ styles.rowDeleteText }>Delete</Text></TouchableOpacity>
+              <TouchableOpacity onPress={ () => navigate( "Notes_Editor", { id: note["id"] } ) } style={ styles.openTouch }><Text style={ styles.rowButton }>Open ></Text></TouchableOpacity>
             </View>
           )}
         </ScrollView>

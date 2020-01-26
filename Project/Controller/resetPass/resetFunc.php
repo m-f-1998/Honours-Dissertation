@@ -5,7 +5,7 @@ header('Access-Control-Allow-Methods: POST, GET');
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/dissertation/dbConnection/constants.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/dissertation/dbConnection/dbConnect.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/dissertation/userFunctions/dbOperation.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/dissertation/login/dbOperation.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 

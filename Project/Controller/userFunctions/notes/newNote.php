@@ -3,7 +3,7 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET');
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/dissertation/userFunctions/dbOperation.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/dissertation/userFunctions/notes/dbOperation.php';
 
 $response = array ();
 

@@ -2,16 +2,15 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 /*
   ==========================================
-   Title: Styles For Notes
+   Title: Styles For Messaging
    Author: Matthew Frankland
-   Description: Common Styles Between Notes View And Component
+   Description: Styles For Sending Messages Between Lecturers and Students
   ==========================================
 */
 
 export default StyleSheet.create( {
   container: {
     position: 'absolute',
-    paddingTop: '15%',
     flex: 1,
     backgroundColor: '#0B345A',
     height: Dimensions.get( 'window' ).height
@@ -26,7 +25,7 @@ export default StyleSheet.create( {
     padding: 10,
     flex: 1
   },
-  noNote: {
+  noMessage: {
     flex: 1,
     justifyContent: 'center',
     color: 'white',
@@ -75,26 +74,11 @@ export default StyleSheet.create( {
     marginLeft: 5,
     backgroundColor: '#6b41de'
   },
-  editorContainer: {
-    flex: 1,
-    backgroundColor: '#0B345A',
+  image: {
+    width: 75,
+    height: 75,
+    marginLeft: 10,
+    borderRadius: 150 / 2,
+    overflow: "hidden"
   },
-  nav: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: 5,
-    backgroundColor: '#0B345A',
-  },
-  rich: {
-    minHeight: 300,
-    flex: 1
-  },
-  richBar: {
-    height: 50,
-    backgroundColor: '#0B345A',
-    color: 'white'
-  },
-  scroll : {
-    backgroundColor:'#ffffff'
-  }
 } );

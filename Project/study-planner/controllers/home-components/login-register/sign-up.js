@@ -31,7 +31,7 @@ class SignUpScreen extends ParentComponent {
       global.email_verified = false;
       global.education_valid = false;
       SecureStore.setItemAsync( "account", // No Details Provided As Only Just Signed Up
-        JSON.stringify( { "dob": null, "email": that.state.email, "email_verified": 0, "forename": null, "is_admin": 0, "profile_pic_link": null, "surname": null, "university_id": 1, } )
+        JSON.stringify( { "dob": null, "email": this.state.email, "email_verified": 0, "forename": null, "is_admin": 0, "profile_pic_link": null, "surname": null, "university_id": 1, } )
       );
       const { status } = Permissions.askAsync(Permissions.NOTIFICATIONS).then( () => { // Check If Notifications Has Already Been Enabled
         if (status !== 'granted') {
@@ -42,7 +42,7 @@ class SignUpScreen extends ParentComponent {
       });
       SecureStore.setItemAsync( "session_id", response[ 'code' ] );
       const resetAction = StackActions.reset( { index: 0, actions: [ NavigationActions.navigate( { routeName: 'Tab_Navigator' } ) ] } ); // Go To Logged In Home Page
-      that.props.navigation.dispatch( resetAction );
+      this.props.navigation.dispatch( resetAction );
       Alert.alert( 'A Confirmation Email Has Been Sent To You', 'Make Sure To Check Your Spam Box If This Is Missing', [ { text: 'OK' } ] );
     }
   }
@@ -59,7 +59,7 @@ class SignUpScreen extends ParentComponent {
       } else {
         if ( response != undefined ) {
           response = JSON.parse( response );
-          that.handleRequest ( JSON.parse( response ) )
+          that.handleRequest ( response );
         } else {
           err = JSON.parse( err );
           Alert.alert( 'Request Failed', err[ 'message' ], [ { text: 'OK' } ] );

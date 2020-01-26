@@ -110,8 +110,6 @@ export default class RichToolbar extends Component {
 
   _defaultRenderAction(action, selected) {
     const icon = this._getButtonIcon(action);
-    console.log(action);
-    console.log(icon);
     return (
       <TouchableOpacity
           key={action}

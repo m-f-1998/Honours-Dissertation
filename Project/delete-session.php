@@ -8,5 +8,5 @@
   $db = new DbConnect ();
   $conn = $db->connect ();
 
-  $stmt = $conn->query('DELETE FROM `verify_email` WHERE `time_stamp` < (UNIX_TIMESTAMP() - 6000);');
+  $stmt = $conn->query('DELETE FROM `session-ids` WHERE `time_stamp` < (UNIX_TIMESTAMP() - 3600);');
 ?>

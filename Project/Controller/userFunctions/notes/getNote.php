@@ -3,7 +3,7 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET');
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/dissertation/userFunctions/dbOperation.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/dissertation/userFunctions/notes/dbOperation.php';
 
 $response = array ();
 
@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['session_id']) && isset($_POST['note_id'])) {
 
         $db = new DbOperation();
-        $res = $db->saveNote($db->noHTML($_POST['session_id']), $db->noHTML($_POST['note_id']), $_POST['note_text']);
+        $res = $db->getNote($db->noHTML($_POST['session_id']), $db->noHTML($_POST['note_id']));
 
         if ( $res === -1 ) {
 
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else if ( $res === -2 ) {
 
           $response['error'] = true;
-          $response['message'] = 'Note Could Not Be Saved';
+          $response['message'] = 'Note Does Not Belong To This Account';
 
         } else {
 

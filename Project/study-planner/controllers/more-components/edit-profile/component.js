@@ -101,52 +101,51 @@ class EditProfileScreen extends React.Component {
     }
     form_data.append( 'profile_pic_link', this.state.link );
     account[ 'profile_pic_link' ] = this.state.link;
-    form_data.append( 'email', this.state.email );
 
     // Check A Valid Email Has Been Given If Provided //
-    var emailValid = true;
     if ( this.state.email_changed ) {
-      emailValid = false;
       const expression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
       if ( expression.test( this.state.email.toLowerCase() ) ) { // Test E-Mail Is Valid On Lower Case For Realism
         if ( this.state.email.endsWith( ".ac.uk" ) ) { // Must Be Education Email
+          form_data.append( 'email', this.state.email );
           account[ 'email' ] = this.state.email;
-          emailValid = true;
         } else {
           Alert.alert( 'Your Registered Email Must Be An Educational Address', '', [ { text: 'OK' } ] );
+          this.setState( { email_changed: false, forename_changed: false, surname_changed: false } );
+          return;
         }
       } else {
         Alert.alert( 'Please Enter A Valid Email', '', [ { text: 'OK' } ] );
+        this.setState( { email_changed: false, forename_changed: false, surname_changed: false } );
+        return;
       }
     }
 
     this.setState( { processing: true } );
 
-    if ( emailValid ) {
-      Keyboard.dismiss();
-      const url = 'https://www.matthewfrankland.co.uk/dissertation/userFunctions/updateProfile.php';
-      var that = this;
-      require("../../assets/fetch.js").getFetch( url, form_data, function ( err, response, timeout ) {
-        if ( timeout ) {
-          Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
-        } else {
-          if ( ! err ) {
-            response = JSON.parse( response );
-            if ( response[ 'error' ] ) {
-              Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
-            } else {
-              SecureStore.setItemAsync( "account", JSON.stringify ( account ) );
-              that.setState( { email_changed: false, forename_changed: false, surname_changed: false } );
-              Alert.alert( 'Profile Updated', '', [ { text: 'OK' } ] );
-            }
+    Keyboard.dismiss();
+    const url = 'https://www.matthewfrankland.co.uk/dissertation/userFunctions/updateProfile.php';
+    var that = this;
+    require("../../assets/fetch.js").getFetch( url, form_data, function ( err, response, timeout ) {
+      if ( timeout ) {
+        Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
+      } else {
+        if ( ! err ) {
+          response = JSON.parse( response );
+          if ( response[ 'error' ] ) {
+            Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
           } else {
-            err = JSON.parse( err );
-            Alert.alert( 'Request Failed', err[ 'message' ], [ { text: 'OK' } ] );
+            SecureStore.setItemAsync( "account", JSON.stringify ( account ) );
+            that.setState( { email_changed: false, forename_changed: false, surname_changed: false } );
+            Alert.alert( 'Profile Updated', '', [ { text: 'OK' } ] );
           }
+        } else {
+          err = JSON.parse( err );
+          Alert.alert( 'Request Failed', err[ 'message' ], [ { text: 'OK' } ] );
         }
-        that.setState( { processing: false } );
-      });
-    }
+      }
+      that.setState( { processing: false } );
+    });
   }
 
   render() {

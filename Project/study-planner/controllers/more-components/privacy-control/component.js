@@ -45,8 +45,30 @@ class Privacy_Control_Screen extends React.Component {
   }
 
   setPrivacy = async ( value ) => { // Enable Allowing Name To Be Viewable
-    SecureStore.setItemAsync( "privacy", String( value ) );
-    this.setState( { details: value } );
+    var id = await SecureStore.getItemAsync( 'session_id' );
+    const form_data = new FormData();
+    form_data.append( 'session_id', id );
+    form_data.append( 'value', String( value ) );
+    var that = this;
+    const url = 'https://www.matthewfrankland.co.uk/dissertation/userFunctions/privacySet.php';
+    require("../../assets/fetch.js").getFetch( url, form_data, function ( err, response, timeout ) {
+      if ( timeout ) {
+        Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
+      } else {
+        if ( ! err ) {
+          response = JSON.parse( response );
+          if ( response[ 'error' ] ) {
+            Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+          } else {
+            SecureStore.setItemAsync( "privacy", String( value ) );
+            that.setState( { details: value } );
+          }
+        } else {
+          err = JSON.parse( err );
+          Alert.alert( 'Request Failed', err[ 'message' ], [ { text: 'OK' } ] );
+        }
+      }
+    });
   }
 
   setNotifications = async ( value ) => { // Add Permissions For Notifications
@@ -77,8 +99,8 @@ class Privacy_Control_Screen extends React.Component {
           <Text style={ styles.text }>Allow Other Users In A Shared Group To View Your Name And Profile Picture:{"\n"}</Text>
           <Switch value={ this.state.details } onValueChange={ v => { this.setPrivacy( v ); } } />
         </View>
-        <View style={ { alignItems: 'center', width: '100%', position: 'absolute', bottom: 10 } }>
-          <Text style={ { textAlign: 'center', fontStyle: 'italic', color: 'white' } }>
+        <View style={ styles.footerView }>
+          <Text style={ styles.footerText }>
             Members Of Your Shared Groups Will Always Be Able To View Your Email Adress
           </Text>
         </View>

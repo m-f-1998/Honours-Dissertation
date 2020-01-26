@@ -3,16 +3,16 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET');
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/dissertation/userFunctions/dbOperation.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/dissertation/userFunctions/notes/dbOperation.php';
 
 $response = array ();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if (isset($_POST['session_id'])) {
+    if (isset($_POST['session_id']) && isset($_POST['note_id'])) {
 
         $db = new DbOperation();
-        $res = $db->updateProfile($db->noHTML($_POST['session_id']), $db->noHTML($_POST['forename']), $db->noHTML($_POST['surname']), $db->noHTML($_POST['email']), $db->noHTML($_POST['profile_pic_link']));
+        $res = $db->saveNote($db->noHTML($_POST['session_id']), $db->noHTML($_POST['note_id']), $_POST['note_text']);
 
         if ( $res === -1 ) {
 
@@ -22,12 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else if ( $res === -2 ) {
 
           $response['error'] = true;
-          $response['message'] = 'Profile Could Not Be Updated';
-
-        } else if ( $res === -3 ) {
-
-          $response['error'] = true;
-          $response['message'] = 'Email Is In Use. Profile Could Not Update';
+          $response['message'] = 'Note Could Not Be Saved';
 
         } else {
 

@@ -32,5 +32,16 @@ export default StyleSheet.create( {
   switch: {
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  footerView: {
+    alignItems: 'center',
+    width: '100%',
+    position: 'absolute',
+    bottom: 10
+  },
+  footerText: {
+    textAlign: 'center',
+    fontStyle: 'italic',
+    color: 'white'
   }
 } );
