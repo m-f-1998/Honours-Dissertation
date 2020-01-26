@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StatusBar, ScrollView, Button, Alert, TouchableOpacity } from 'react-native';
+import { Text, View, StatusBar, ScrollView, Alert, TouchableOpacity } from 'react-native';
 
 import { NavigationActions, StackActions } from 'react-navigation';
 import * as SecureStore from 'expo-secure-store';
