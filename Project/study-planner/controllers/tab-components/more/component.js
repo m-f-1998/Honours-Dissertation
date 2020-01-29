@@ -20,7 +20,11 @@ class More_Screen extends React.Component {
   static navigationOptions = {
     headerShown: false,
     gestureEnabled: false,
-    title: 'More'
+    title: 'More',
+    headerTintColor: 'white',
+    headerStyle: {
+      backgroundColor: '#0B345A'
+    }
   };
 
   state = {

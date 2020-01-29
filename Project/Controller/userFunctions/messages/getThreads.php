@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['session_id'])) {
 
         $db = new DbOperation();
-        $res = $db->getMessages($db->noHTML($_POST['session_id']));
+        $res = $db->getThreads($db->noHTML($_POST['session_id']));
 
         if ( $res < 0 ) {
 

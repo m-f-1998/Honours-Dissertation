@@ -56,11 +56,15 @@ class Notes_Editor_Screen extends React.Component {
         Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
       } else {
         if ( ! err ) {
-          response = JSON.parse( response );
-          if ( response[ 'error' ] ) {
-            Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+          if ( response == undefined ) {
+            Alert.alert( 'Request Failed', 'An Internet Connection Is Required', [ { text: 'OK' } ] );
           } else {
-            that.setState( { isMounted: true, noteText: response[ 'message' ] } );
+            response = JSON.parse( response );
+            if ( response[ 'error' ] ) {
+              Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+            } else {
+              that.setState( { isMounted: true, noteText: response[ 'message' ] } );
+            }
           }
         } else {
           err = JSON.parse( err );
@@ -83,12 +87,16 @@ class Notes_Editor_Screen extends React.Component {
         Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
       } else {
         if ( ! err ) {
-          response = JSON.parse( response );
-          if ( response[ 'error' ] ) {
-            Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+          if ( response == undefined ) {
+            Alert.alert( 'Request Failed', 'An Internet Connection Is Required', [ { text: 'OK' } ] );
           } else {
-            if ( response[ 'message' ] && alert ) {
-              Alert.alert( 'Note Saved', '', [ { text: 'OK' } ] );
+            response = JSON.parse( response );
+            if ( response[ 'error' ] ) {
+              Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+            } else {
+              if ( response[ 'message' ] && alert ) {
+                Alert.alert( 'Note Saved', '', [ { text: 'OK' } ] );
+              }
             }
           }
         } else {
@@ -103,7 +111,7 @@ class Notes_Editor_Screen extends React.Component {
     return (
       <SafeAreaView style={ styles.editorContainer }>
         <StatusBar backgroundColor="#FFFFFF" barStyle="light-content"/>
-        <OfflineNotice />
+        <OfflineNotice shortened={ true }/>
         <View style={styles.nav}>
           <Button title="Save" color='white' onPress={ () => this.save( true ) }/>
         </View>

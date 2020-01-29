@@ -8,10 +8,10 @@ import { StyleSheet, Dimensions } from 'react-native';
   ==========================================
 */
 
+
 export default StyleSheet.create( {
   container: {
     backgroundColor: 'red',
-    height: 60,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
@@ -19,6 +19,12 @@ export default StyleSheet.create( {
     position: 'absolute',
     top: 0,
     zIndex: 1
+  },
+  shortContainer: {
+    height: 38
+  },
+  largeContainer: {
+    height: 60
   },
   text: {
     color: '#fff',

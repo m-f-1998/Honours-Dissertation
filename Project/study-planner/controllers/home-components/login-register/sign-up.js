@@ -62,7 +62,7 @@ class SignUpScreen extends ParentComponent {
           that.handleRequest ( response );
         } else {
           err = JSON.parse( err );
-          Alert.alert( 'Request Failed', err[ 'message' ], [ { text: 'OK' } ] );
+          Alert.alert( 'Request Failed', 'No Internet Connection', [ { text: 'OK' } ] );
         }
       }
       that.setState( { processing: false } );

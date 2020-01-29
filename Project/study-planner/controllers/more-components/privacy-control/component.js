@@ -56,12 +56,16 @@ class Privacy_Control_Screen extends React.Component {
         Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
       } else {
         if ( ! err ) {
-          response = JSON.parse( response );
-          if ( response[ 'error' ] ) {
-            Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+          if ( response == undefined ) {
+            Alert.alert( 'Request Failed', 'An Internet Connection Is Required', [ { text: 'OK' } ] );
           } else {
-            SecureStore.setItemAsync( "privacy", String( value ) );
-            that.setState( { details: value } );
+            response = JSON.parse( response );
+            if ( response[ 'error' ] ) {
+              Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+            } else {
+              SecureStore.setItemAsync( "privacy", String( value ) );
+              that.setState( { details: value } );
+            }
           }
         } else {
           err = JSON.parse( err );

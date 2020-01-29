@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $response['error'] = false;
             $response['account'] = $db->getAccount($db->noHTML($_POST['email']));
 
-            if ($db->isAdmin($db->noHTML($_POST['email'])) == '1') {
+            if ($db->isLecturer($db->noHTML($_POST['email'])) == '1') {
 
                 $response ['admin'] = true;
 

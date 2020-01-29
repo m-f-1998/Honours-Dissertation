@@ -68,11 +68,15 @@ class Notes_Screen extends React.Component {
         Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
       } else {
         if ( ! err ) {
-          response = JSON.parse( response );
-          if ( response[ 'error' ] ) {
-            Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+          if ( response == undefined ) {
+            Alert.alert( 'Request Failed', 'An Internet Connection Is Required', [ { text: 'OK' } ] );
           } else {
-            that.setState( { notes: response[ 'message' ] } );
+            response = JSON.parse( response );
+            if ( response[ 'error' ] ) {
+              Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+            } else {
+              that.setState( { notes: response[ 'message' ] } );
+            }
           }
         } else {
           err = JSON.parse( err );
@@ -94,14 +98,18 @@ class Notes_Screen extends React.Component {
         Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
       } else {
         if ( ! err ) {
-          response = JSON.parse( response );
-          if ( response[ 'error' ] ) {
-            Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+          if ( response == undefined ) {
+            Alert.alert( 'Request Failed', 'An Internet Connection Is Required', [ { text: 'OK' } ] );
           } else {
-            var index = that.state.notes.indexOf(note);
-            var newArry = that.state.notes;
-            if (index !== -1) newArry.splice(index, 1);
-            that.setState( { notes: newArry } );
+            response = JSON.parse( response );
+            if ( response[ 'error' ] ) {
+              Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+            } else {
+              var index = that.state.notes.indexOf(note);
+              var newArry = that.state.notes;
+              if (index !== -1) newArry.splice(index, 1);
+              that.setState( { notes: newArry } );
+            }
           }
         } else {
           err = JSON.parse( err );
@@ -125,11 +133,15 @@ class Notes_Screen extends React.Component {
            Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
          } else {
            if ( ! err ) {
-             response = JSON.parse( response );
-             if ( response[ 'error' ] ) {
-               Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+             if ( response == undefined ) {
+               Alert.alert( 'Request Failed', 'An Internet Connection Is Required', [ { text: 'OK' } ] );
              } else {
-               that.get_notes();
+               response = JSON.parse( response );
+               if ( response[ 'error' ] ) {
+                 Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+               } else {
+                 that.get_notes();
+               }
              }
            } else {
              err = JSON.parse( err );

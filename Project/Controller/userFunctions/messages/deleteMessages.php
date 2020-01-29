@@ -9,10 +9,10 @@ $response = array ();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if (isset($_POST['session_id']) && isset($_POST['message_id'])) {
+    if (isset($_POST['session_id']) && isset($_POST['thread_id'])) {
 
         $db = new DbOperation();
-        $res = $db->deleteMessage($db->noHTML($_POST['session_id']), $db->noHTML($_POST['message_id']));
+        $res = $db->deleteMessage($db->noHTML($_POST['session_id']), $db->noHTML($_POST['thread_id']));
 
         if ( $res === -1 ) {
 

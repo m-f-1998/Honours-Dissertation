@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS notes_text;
 DROP TABLE IF EXISTS notes;
 DROP TABLE IF EXISTS messages_text;
 DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS message_threads;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS university;
 SET FOREIGN_KEY_CHECKS=1;
@@ -27,7 +28,7 @@ CREATE TABLE IF NOT EXISTS users (
   email VARCHAR(50) NOT NULL UNIQUE,
   pass VARCHAR(150) NOT NULL,
   university_id INT(11) NOT NULL,
-  is_admin TINYINT(1) NOT NULL,
+  is_lecturer TINYINT(1) NOT NULL,
   privacy TINYINT(1) NOT NULL,
   email_verified TINYINT(1) NOT NULL,
   FOREIGN KEY (university_id) REFERENCES university(id)
@@ -54,6 +55,7 @@ CREATE TABLE IF NOT EXISTS notes (
   id VARCHAR(40) NOT NULL PRIMARY KEY,
   title VARCHAR(200) NOT NULL,
   creation_date DATE NOT NULL,
+  creation_time TIME NOT NULL,
   account_id VARCHAR(40) NOT NULL,
   FOREIGN KEY (account_id) REFERENCES users(id)
 ) ENGINE = INNODB;
@@ -64,13 +66,25 @@ CREATE TABLE IF NOT EXISTS notes_text (
   FOREIGN KEY (id) REFERENCES notes(id)
 ) ENGINE = INNODB;
 
+CREATE TABLE IF NOT EXISTS message_threads (
+  id VARCHAR(40) NOT NULL PRIMARY KEY,
+  thread_id VARCHAR(40) NOT NULL UNIQUE,
+  originating_user VARCHAR(40) NOT NULL,
+  recipient_user VARCHAR(40) NOT NULL,
+  FOREIGN KEY (originating_user) REFERENCES users(id),
+  FOREIGN KEY (recipient_user) REFERENCES users(id)
+) ENGINE = INNODB;
+
 CREATE TABLE IF NOT EXISTS messages (
   id VARCHAR(40) NOT NULL PRIMARY KEY,
+  message_thread VARCHAR(40) NOT NULL,
   from_account VARCHAR(40) NOT NULL,
   to_account VARCHAR(40) NOT NULL,
   creation_date DATE NOT NULL,
+  creation_time TIME NOT NULL,
   FOREIGN KEY (from_account) REFERENCES users(id),
-  FOREIGN KEY (to_account) REFERENCES users(id)
+  FOREIGN KEY (to_account) REFERENCES users(id),
+  FOREIGN KEY (message_thread) REFERENCES message_threads(thread_id)
 ) ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS messages_text (

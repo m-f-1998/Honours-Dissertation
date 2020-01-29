@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['session_id']) && isset($_POST['email_recipient'])) {
 
         $db = new DbOperation();
-        $res = $db->newMessage($db->noHTML($_POST['session_id']), $db->noHTML($_POST['email_recipient']));
+        $res = $db->newMessageThread($db->noHTML($_POST['session_id']), $db->noHTML($_POST['email_recipient']));
 
         if ( $res === -1 ) {
 
@@ -28,6 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
           $response['error'] = true;
           $response['message'] = 'Recipient Does Not Have An Account';
+
+        } else if ( $res === -4 ) {
+
+          $response['error'] = true;
+          $response['message'] = 'Message Thread Already Exists';
 
         } else {
 

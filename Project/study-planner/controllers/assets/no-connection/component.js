@@ -33,9 +33,12 @@ class NoConnection extends React.Component {
   }
 
   render() {
+    const containerStyle = [
+      this.props.shortened ? styles.shortContainer : styles.container
+    ];
     if ( !this.state.connected ) {
       return (
-        <View style={ styles.container }>
+        <View style={ [ styles.container, containerStyle ] }>
           <Text style={ styles.text }>No Connection!</Text>
         </View>
       );

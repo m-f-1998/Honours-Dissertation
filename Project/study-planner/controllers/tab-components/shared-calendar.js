@@ -15,7 +15,7 @@ class Shared_Calendar_Screen extends Validity_Controller {
   render() {
     return (
       <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
-        <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content"/>
+        <StatusBar backgroundColor="#FFFFFF" barStyle="light-content"/>
         <OfflineNotice />
         { !this.state.emailValid === true ? // E-Mail Not Valid
           <View style={ { marginTop: 10, justifyContent: 'center', alignItems: 'center' } }>

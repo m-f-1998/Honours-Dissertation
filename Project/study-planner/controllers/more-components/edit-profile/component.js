@@ -131,13 +131,17 @@ class EditProfileScreen extends React.Component {
         Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
       } else {
         if ( ! err ) {
-          response = JSON.parse( response );
-          if ( response[ 'error' ] ) {
-            Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+          if ( response == undefined ) {
+            Alert.alert( 'Request Failed', 'An Internet Connection Is Required', [ { text: 'OK' } ] );
           } else {
-            SecureStore.setItemAsync( "account", JSON.stringify ( account ) );
-            that.setState( { email_changed: false, forename_changed: false, surname_changed: false } );
-            Alert.alert( 'Profile Updated', '', [ { text: 'OK' } ] );
+            response = JSON.parse( response );
+            if ( response[ 'error' ] ) {
+              Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+            } else {
+              SecureStore.setItemAsync( "account", JSON.stringify ( account ) );
+              that.setState( { email_changed: false, forename_changed: false, surname_changed: false } );
+              Alert.alert( 'Profile Updated', '', [ { text: 'OK' } ] );
+            }
           }
         } else {
           err = JSON.parse( err );

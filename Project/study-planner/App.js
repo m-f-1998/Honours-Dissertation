@@ -34,12 +34,15 @@ Notes_Navigator.navigationOptions = {
 import More_Screen from "./controllers/tab-components/more/component.js";
 import Edit_Profile_Screen from "./controllers/more-components/edit-profile/component.js";
 import Messaging_Screen from "./controllers/more-components/messages/component.js";
+import Messaging_View from "./controllers/more-components/messages/view.js";
 import Privacy_Screen from "./controllers/more-components/privacy-control/component.js";
+
 
 const More_Navigator = createStackNavigator( {
   More: { screen: More_Screen },
   Edit_Profile: { screen: Edit_Profile_Screen },
   Messaging: { screen: Messaging_Screen },
+  Messaging_View: { screen: Messaging_View },
   Privacy: { screen: Privacy_Screen }
 }, {
   navigationOptions: {

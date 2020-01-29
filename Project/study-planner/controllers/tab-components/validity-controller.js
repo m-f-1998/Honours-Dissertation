@@ -13,7 +13,9 @@ import * as SecureStore from 'expo-secure-store';
 
 class ValidityController extends React.Component {
   static navigationOptions = {
-    headerShown: false
+    headerStyle: {
+      backgroundColor: '#0B345A'
+    }
   };
 
   componentDidMount() {
@@ -48,12 +50,16 @@ class ValidityController extends React.Component {
         Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
       } else {
         if ( ! err ) {
-          response = JSON.parse( response );
-          if ( response[ 'error' ] ) {
-            Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+          if ( response == undefined ) {
+            Alert.alert( 'Request Failed', 'An Internet Connection Is Required', [ { text: 'OK' } ] );
           } else {
-            that.setState( { emailValid: response[ 'message' ] } );
-            global.email_verified = response[ 'message' ];
+            response = JSON.parse( response );
+            if ( response[ 'error' ] ) {
+              Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+            } else {
+              that.setState( { emailValid: response[ 'message' ] } );
+              global.email_verified = response[ 'message' ];
+            }
           }
         } else {
           err = JSON.parse( err );
@@ -73,12 +79,16 @@ class ValidityController extends React.Component {
         Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
       } else {
         if ( ! err ) {
-          response = JSON.parse( response );
-          if ( response[ 'error' ] ) {
-            Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+          if ( response == undefined ) {
+            Alert.alert( 'Request Failed', 'An Internet Connection Is Required', [ { text: 'OK' } ] );
           } else {
-            that.setState( { educationValid: response[ 'message' ] } );
-            global.education_valid = response[ 'message' ];
+            response = JSON.parse( response );
+            if ( response[ 'error' ] ) {
+              Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+            } else {
+              that.setState( { educationValid: response[ 'message' ] } );
+              global.education_valid = response[ 'message' ];
+            }
           }
         } else {
           err = JSON.parse( err );

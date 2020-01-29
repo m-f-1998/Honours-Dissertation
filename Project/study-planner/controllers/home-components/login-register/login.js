@@ -21,19 +21,27 @@ import styles from "../styles.js";
 
 class LoginScreen extends ParentComponent {
   handleRequest ( url, form_data, func ) {  // Async Function To Await Response From Login Server
+    var that = this;
     require("../../assets/fetch.js").getFetch( url, form_data, function ( err, response, timeout ) {
       if ( timeout ) {
         Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
+        that.setState( { processing: false } );
       } else {
         if ( !err ) {
-          response = JSON.parse( response );
-          if ( response[ 'error' ] ) {
-            Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+          if ( response != undefined ) {
+            response = JSON.parse( response );
+            if ( response[ 'error' ] ) {
+              Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+            }
+            func ( !response[ 'error' ], response );
+          } else {
+            Alert.alert( 'Request Failed', 'No Internet Connection', [ { text: 'OK' } ] );
+            that.setState( { processing: false } );
           }
-          func ( !response[ 'error' ], response );
         } else {
           err = JSON.parse( err );
           Alert.alert( 'Request Failed', err[ 'message' ], [ { text: 'OK' } ] );
+          that.setState( { processing: false } );
         }
       }
     });

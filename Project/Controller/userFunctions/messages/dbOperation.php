@@ -32,43 +32,31 @@ class dbOperation {
 
     }
 
-    public function getMessages ($sessionid) {
+    public function getThreads ($sessionid) {
 
         $id = $this->getAccountID($sessionid);
 
         if ( $id != NULL ) {
 
           $stmt = $this->conn->prepare ('SELECT
-            `id`,
-            `from_account`,
-            (SELECT `email` FROM `users` WHERE `id`=`from_account`) AS `from_email`,
-            (SELECT `forename` FROM `users` WHERE `id`=`from_account`) AS `from_forename`,
-            (SELECT `surname` FROM `users` WHERE `id`=`from_account`) AS `from_surname`,
-            (SELECT `profile_pic_link` FROM `users` WHERE `id`=`from_account`) AS `from_profile_pic`,
-            (SELECT `privacy` FROM `users` WHERE `id`=`from_account`) AS `from_privacy`,
-            `to_account`,
-            (SELECT `email` FROM `users` WHERE `id`=`to_account`) AS `to_email`,
-            (SELECT `forename` FROM `users` WHERE `id`=`to_account`) AS `to_forename`,
-            (SELECT `surname` FROM `users` WHERE `id`=`to_account`) AS `to_surname`,
-            (SELECT `profile_pic_link` FROM `users` WHERE `id`=`to_account`) AS `to_profile_pic`,
-            (SELECT `privacy` FROM `users` WHERE `id`=`to_account`) AS `to_privacy`,
-            `creation_date`
-          FROM `messages` WHERE `from_account`=?;');
+            `thread_id` AS `id`,
+            `originating_user`,
+            (SELECT `email` FROM `users` WHERE `id`=`originating_user`) AS `original_email`,
+            (SELECT `forename` FROM `users` WHERE `id`=`originating_user`) AS `original_forename`,
+            (SELECT `surname` FROM `users` WHERE `id`=`originating_user`) AS `original_surname`,
+            (SELECT `profile_pic_link` FROM `users` WHERE `id`=`originating_user`) AS `original_profile_pic`,
+            `recipient_user`,
+            (SELECT `email` FROM `users` WHERE `id`=`recipient_user`) AS `recipient_email`,
+            (SELECT `forename` FROM `users` WHERE `id`=`recipient_user`) AS `recipient_forename`,
+            (SELECT `surname` FROM `users` WHERE `id`=`recipient_user`) AS `recipient_surname`,
+            (SELECT `profile_pic_link` FROM `users` WHERE `id`=`recipient_user`) AS `recipient_profile_pic`,
+            (SELECT `privacy` FROM `users` WHERE `id`=`recipient_user`) AS `privacy`,
+            (SELECT `is_lecturer` FROM `users` WHERE `id`=`recipient_user`) AS `is_lecturer`
+          FROM `message_threads` WHERE `originating_user`=?;');
           $stmt->bind_param ('s', $id);
           $stmt->execute ();
           $result = $stmt->get_result();
           $res = array();
-
-          while ($data = $result->fetch_assoc()) {
-
-              array_push($res, $data);
-
-          }
-
-          $stmt = $this->conn->prepare ('SELECT `id`, `from_account`, (SELECT `email` FROM `users` WHERE `id`=`from_account`) AS `from_email`, `to_account`, (SELECT `email` FROM `users` WHERE `id`=`to_account`) AS `to_email`, `creation_date` FROM `messages` WHERE `to_account`=?');
-          $stmt->bind_param ('s', $id);
-          $stmt->execute ();
-          $result = $stmt->get_result();
 
           while ($data = $result->fetch_assoc()) {
 
@@ -97,7 +85,7 @@ class dbOperation {
 
     }
 
-    public function newMessage ($sessionid, $email) {
+    public function newMessageThread ($sessionid, $email) {
 
         $id = $this->getAccountID($sessionid);
 
@@ -107,16 +95,55 @@ class dbOperation {
 
           if ( $id != NULL ) {
 
-            $stmt = $this->conn->prepare ( 'INSERT INTO `messages` ( `id`, `from_account`, `to_account`, `creation_date` ) VALUES (UUID(), ?, ?, CURDATE());' );
-            $stmt->bind_param ('ss', $id, $id_recip);
+            $stmt = $this->conn->prepare('SELECT `thread_id` FROM `message_threads` WHERE `originating_user` = ? AND `recipient_user` = ?;');
+            $stmt->bind_param('ss', $id, $id_recip);
+            $stmt->execute();
+            $stmt->store_result();
 
-            if ( $stmt->execute () ) {
+            if ( $stmt->num_rows == 0 ) {
 
-              return true;
+              $stmt = $this->conn->prepare('SELECT `thread_id` FROM `message_threads` WHERE `originating_user` = ? AND `recipient_user` = ?;');
+              $stmt->bind_param('ss', $id_recip, $id);
+              $stmt->execute();
+              $stmt->store_result();
+              $stmt->bind_result ($thread_id);
+              $stmt->fetch();
+
+              if ( $stmt->num_rows == 0 ) {
+
+                $stmt = $this->conn->prepare ( 'INSERT INTO `message_threads` ( `id`, `thread_id`, `originating_user`, `recipient_user` ) VALUES (UUID(), UUID(), ?, ?);' );
+                $stmt->bind_param ('ss', $id, $id_recip);
+
+                if ( $stmt->execute () ) {
+
+                  return true;
+
+                } else {
+
+                  return -2;
+
+                }
+
+              } else {
+
+                $stmt = $this->conn->prepare ( 'INSERT INTO `message_threads` ( `id`, `thread_id`, `originating_user`, `recipient_user` ) VALUES (UUID(), ?, ?, ?);' );
+                $stmt->bind_param ('ss', $thread_id, $id, $id_recip);
+
+                if ( $stmt->execute () ) {
+
+                  return true;
+
+                } else {
+
+                  return -2;
+
+                }
+
+              }
 
             } else {
 
-              return -2;
+              return -4;
 
             }
 
@@ -134,67 +161,45 @@ class dbOperation {
 
     }
 
-    public function sendMessage ($sessionid, $messageid, $messagetext) {
+    public function sendMessage ($sessionid, $email, $threadid, $text) {
 
         $id = $this->getAccountID($sessionid);
 
         if ( $id != NULL ) {
 
-          $stmt = $this->conn->prepare ( 'INSERT INTO `messages_text` ( `id`, `message` ) VALUES (?, ?) ON DUPLICATE KEY UPDATE `message`=?;' );
-          $stmt->bind_param ('sss', $messageid, $messagetext, $messagetext);
+          $id_recip = $this->getID($email);
+
+          $stmt = $this->conn->prepare ( 'INSERT INTO `messages` ( `id`, `message_thread`, `from_account`, `to_account`, `creation_date`, `creation_time` ) VALUES (UUID(), ?, ?, ?, CURDATE(), CURTIME());' );
+          $stmt->bind_param ('sss', $threadid, $id, $id_recip);
 
           if ( $stmt->execute () ) {
 
-            return true;
-
-          } else {
-
-            return -2;
-
-          }
-
-        } else {
-
-          return -1;
-
-        }
-
-    }
-
-    public function getMessage ($sessionid, $messageid) {
-
-        $id = $this->getAccountID($sessionid);
-
-        if ( $id != NULL ) {
-
-          $stmt = $this->conn->prepare ('SELECT `id` FROM `messages` WHERE `from_account`=? AND `id`=?;');
-          $stmt->bind_param ('ss', $id, $messageid);
-          $stmt->execute ();
-          $stmt->store_result();
-          $stmt->bind_result ($message);
-          $stmt->fetch();
-
-          if ($message === $messageid) {
-
-            $stmt = $this->conn->prepare ('SELECT `message` FROM `messages_text` WHERE `id`=?;');
-            $stmt->bind_param ('s', $messageid);
+            $stmt = $this->conn->prepare ('SELECT `id` FROM `messages` WHERE `creation_time`<=CURTIME() ORDER BY `creation_time` DESC LIMIT 1;');
             $stmt->execute ();
             $stmt->store_result();
-            $stmt->bind_result ($messagetext);
+            $stmt->bind_result ($messageid);
             $stmt->fetch();
 
-            if ($messagetext == null) {
+            $stmt = $this->conn->prepare ( 'INSERT INTO `messages_text` ( `id`, `message` ) VALUES (?, ?) ON DUPLICATE KEY UPDATE `message`=?;' );
+            $stmt->bind_param ('sss', $messageid, $text, $text);
 
-              return '';
+            if ( $stmt->execute () ) {
+
+              return true;
 
             } else {
 
-              return $messagetext;
+              var_dump("Hello");
+
+              return -2;
 
             }
 
           } else {
 
+            var_dump($stmt);
+
+
             return -2;
 
           }
@@ -207,38 +212,77 @@ class dbOperation {
 
     }
 
-    public function deleteMessage ($sessionid, $messageid) {
+    public function getMessages ($sessionid, $threadid) {
 
         $id = $this->getAccountID($sessionid);
 
         if ( $id != NULL ) {
 
-          $stmt = $this->conn->prepare ('SELECT `id` FROM `messages` WHERE `from_account`=? AND `id`=?;');
-          $stmt->bind_param ('ss', $id, $messageid);
+          $stmt = $this->conn->prepare ('SELECT `id` AS `message_id`, `creation_date`, ( SELECT `users`.`email` FROM `users` WHERE `users`.`id` = `messages`.`from_account` ) AS `from_email`, `creation_time`, ( SELECT `message` FROM `messages_text` WHERE `id` = `message_id`) AS `message` FROM `messages` WHERE `message_thread`=?;');
+          $stmt->bind_param ('s', $threadid);
           $stmt->execute ();
-          $stmt->store_result();
-          $stmt->bind_result ($message);
-          $stmt->fetch();
+          $result = $stmt->get_result();
+          $res = array();
 
-          if ($message === $messageid) {
+          while ($data = $result->fetch_assoc()) {
+
+              array_push($res, $data);
+
+          }
+
+          return $res;
+
+        } else {
+
+          return -1;
+
+        }
+
+    }
+
+    public function deleteMessage ($sessionid, $threadid) {
+
+        $id = $this->getAccountID($sessionid);
+
+        if ( $id != NULL ) {
+
+          $stmt = $this->conn->prepare ('SELECT `id` FROM `messages` WHERE `message_thread`=?;');
+          $stmt->bind_param ('s', $threadid);
+          $stmt->execute ();
+          $result = $stmt->get_result();
+          $res = array();
+
+          while ($data = $result->fetch_assoc()) {
+
+              array_push($res, $data);
+
+          }
+
+          foreach ($res as $data) {
 
             $stmt = $this->conn->prepare ('DELETE FROM `messages_text` WHERE `id`=?;');
-            $stmt->bind_param ('s', $messageid);
+            $stmt->bind_param ('s', $data['id']);
+
+            if ( ! $stmt->execute () ) {
+
+              return -3;
+
+            }
+
+          }
+
+          $stmt = $this->conn->prepare ('DELETE FROM `messages` WHERE `message_thread`=?;');
+          $stmt->bind_param ('s', $threadid);
+
+          if ( $stmt->execute () ) {
+
+            $stmt = $this->conn->prepare ('DELETE FROM `message_threads` WHERE `thread_id`=?;');
+            $stmt->bind_param ('s', $threadid);
+
 
             if ( $stmt->execute () ) {
 
-              $stmt = $this->conn->prepare ('DELETE FROM `messages` WHERE `id`=?;');
-              $stmt->bind_param ('s', $messageid);
-
-              if ( $stmt->execute () ) {
-
-                return true;
-
-              } else {
-
-                return -3;
-
-              }
+              return true;
 
             } else {
 
@@ -248,7 +292,7 @@ class dbOperation {
 
           } else {
 
-            return -2;
+            return -3;
 
           }
 

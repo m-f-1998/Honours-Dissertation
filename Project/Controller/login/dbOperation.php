@@ -55,7 +55,7 @@ class dbOperation {
     }
 
     public function getAccount ($email) {
-        $stmt = $this->conn->prepare ('SELECT `surname`, `forename`, `profile_pic_link`, `email`, `university_id`, `is_admin`, `email_verified` FROM `users` WHERE `email`=?;');
+        $stmt = $this->conn->prepare ('SELECT `surname`, `forename`, `profile_pic_link`, `email`, `university_id`, `is_lecturer`, `email_verified` FROM `users` WHERE `email`=?;');
         $stmt->bind_param ('s', $email);
         $stmt->execute ();
         $result = $stmt->get_result();
@@ -70,9 +70,9 @@ class dbOperation {
         return $res;
     }
 
-    public function isAdmin ($email) {
+    public function isLecturer ($email) {
 
-        $stmt = $this->conn->prepare ('SELECT `is_admin` FROM `users` WHERE `email` = ?;');
+        $stmt = $this->conn->prepare ('SELECT `is_lecturer` FROM `users` WHERE `email` = ?;');
         $stmt->bind_param ('s', $email);
         $stmt->execute ();
         $stmt->store_result();
@@ -117,7 +117,7 @@ class dbOperation {
 
             $options = ['cost' => 12,];
             $password = password_hash($pass, PASSWORD_BCRYPT, $options);
-            $stmt = $this->conn->prepare ('INSERT INTO `users` (`id`, `surname`, `forename`, `profile_pic_link`, `email`, `pass`, `university_id`, `is_admin`, `email_verified`) VALUES (UUID(), NULL, NULL, NULL, ?, ?, 1, false, false);');
+            $stmt = $this->conn->prepare ('INSERT INTO `users` (`id`, `surname`, `forename`, `profile_pic_link`, `email`, `pass`, `university_id`, `is_lecturer`, `email_verified`) VALUES (UUID(), NULL, NULL, NULL, ?, ?, 1, false, false);');
             $stmt->bind_param ('ss', $email, $password);
 
             if ($stmt->execute ()) {
