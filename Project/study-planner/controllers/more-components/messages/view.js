@@ -2,6 +2,8 @@ import React from 'react';
 import { Text, View, StatusBar, Alert, ScrollView, TextInput } from 'react-native';
 
 import * as SecureStore from 'expo-secure-store';
+import * as Permissions from 'expo-permissions';
+import { Notifications } from 'expo';
 
 import OfflineNotice from "../../assets/no-connection/component.js";
 import styles from "./styles.js";

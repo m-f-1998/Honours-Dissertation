@@ -11,6 +11,7 @@ class dbOperation {
 
         require_once $_SERVER['DOCUMENT_ROOT'].'/dissertation/dbConnection/constants.php';
         require_once $_SERVER['DOCUMENT_ROOT'].'/dissertation/dbConnection/dbConnect.php';
+        require_once __DIR__.'/../../vendor/autoload.php';
 
         $db = new DbConnect ();
         $this->conn = $db->connect ();
@@ -189,16 +190,25 @@ class dbOperation {
 
             } else {
 
-              var_dump("Hello");
+              $stmt = $this->conn->prepare ('SELECT `push_allowed`, `push_token` FROM `users` WHERE `id`=?;');
+              $stmt->bind_param ('s', $id_recip);
+              $stmt->execute ();
+              $stmt->store_result();
+              $stmt->bind_result ($push_allowed, $push_token);
+              $stmt->fetch();
 
-              return -2;
+              if ( $push_allowed ) {
+
+                $expo = \ExponentPhpSDK\Expo::normalSetup();
+                $expo->subscribe('messages_server', $push_token);
+                $notification = ['body' => 'Hello World!'];
+                $expo->notify('messages_server', $notification);
+
+              }
 
             }
 
           } else {
-
-            var_dump($stmt);
-
 
             return -2;
 

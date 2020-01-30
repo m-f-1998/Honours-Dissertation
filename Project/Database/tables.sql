@@ -27,6 +27,8 @@ CREATE TABLE IF NOT EXISTS users (
   profile_pic_link VARCHAR(400),
   email VARCHAR(50) NOT NULL UNIQUE,
   pass VARCHAR(150) NOT NULL,
+  push_token VARCHAR(150) NOT NULL,
+  push_allowed TINYINT(1) NOT NULL,
   university_id INT(11) NOT NULL,
   is_lecturer TINYINT(1) NOT NULL,
   privacy TINYINT(1) NOT NULL,

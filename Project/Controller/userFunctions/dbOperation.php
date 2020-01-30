@@ -88,6 +88,23 @@ class dbOperation {
 
     }
 
+    public function updatePush ($sessionid, $token, $allowed) {
+      $id = $this->getAccountID($sessionid);
+
+      $stmt = $this->conn->prepare ( 'UPDATE `users` SET `push_token` = ?, `push_allowed` = ? WHERE `id`=?;' );
+      $stmt->bind_param ( 'sss', $token, $allowed, $id );
+
+      if ( $stmt->execute () ) {
+
+        return true;
+
+      } else {
+
+        return -2;
+
+      }
+    }
+
     public function updateProfile ($sessionid, $forename, $surname, $email, $profilePicLink) {
 
       $id = $this->getAccountID($sessionid);

@@ -1,9 +1,7 @@
 import React from 'react';
-import { Switch, StatusBar, Text, View } from 'react-native';
+import { Switch, StatusBar, Text, View, Alert } from 'react-native';
 
 import * as SecureStore from 'expo-secure-store';
-import * as Permissions from 'expo-permissions';
-import { Notifications } from 'expo';
 
 import OfflineNotice from "../../assets/no-connection/component.js";
 import styles from "./styles.js";
@@ -75,19 +73,53 @@ class Privacy_Control_Screen extends React.Component {
     });
   }
 
-  setNotifications = async ( value ) => { // Add Permissions For Notifications
-    if ( value ) {
+  generateToken = async() => {
+    var token = await SecureStore.getItemAsync( 'notifications-token' );
+    if ( token == null ) {
       const { status } = await Permissions.askAsync( Permissions.NOTIFICATIONS );
       if ( status !== 'granted' ) {
         this.setState( { notifications: false } );
         alert( 'Sorry Notification Permissions Were Not Granted!' );
         return;
       }
-      this.setState( { notifications: true } );
-      let token = await Notifications.getExpoPushTokenAsync();
-      SecureStore.setItemAsync( "notifications-token", token );
+      token = await Notifications.getExpoPushTokenAsync();
     }
-    SecureStore.setItemAsync( "notifications", String( value ) );
+    return token
+  }
+
+  setNotifications = async ( allowed ) => { // Add Permissions For Notifications
+    var token = await this.generateToken();
+    var id = await SecureStore.getItemAsync( 'session_id' );
+    const form_data = new FormData();
+    form_data.append( 'session_id', id );
+    form_data.append( 'allowed', allowed );
+    form_data.append( 'token', token );
+    var that = this;
+    require("../../assets/fetch.js").getFetch( "https://www.matthewfrankland.co.uk/dissertation/userFunctions/savePush.php", form_data, function ( err, response, timeout ) {
+      if ( timeout ) {
+        Alert.alert( 'Request Timed Out', 'A Stable Internet Connection Is Required', [ { text: 'OK' } ] );
+        that.setState( { notifications: false } );
+      } else {
+        if ( ! err ) {
+          if ( response == undefined ) {
+            Alert.alert( 'Request Failed', 'An Internet Connection Is Required', [ { text: 'OK' } ] );
+            that.setState( { notifications: false } );
+          } else {
+            response = JSON.parse( response );
+            if ( response[ 'error' ] ) {
+              Alert.alert( 'An Error Occured', response[ 'message' ], [ { text: 'OK' } ] );
+              that.setState( { notifications: false } );
+            } else {
+              that.setState( { notifications: allowed } );
+            }
+          }
+        } else {
+          err = JSON.parse( err );
+          Alert.alert( 'Request Failed', err[ 'message' ], [ { text: 'OK' } ] );
+          that.setState( { notifications: false } );
+        }
+      }
+    });
   }
 
   render() {
