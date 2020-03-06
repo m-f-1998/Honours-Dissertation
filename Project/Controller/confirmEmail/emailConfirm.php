@@ -1,5 +1,11 @@
 <?php
 
+    /**
+     *
+     * [emailConfirm Run Check On Email Verification Code]
+     *
+     */
+
     header('Access-Control-Allow-Origin: *');
     header('Access-Control-Allow-Methods: POST, GET');
 
@@ -19,13 +25,13 @@
 
     if ($stmt->num_rows > 0) {
 
-      $stmt = $conn->prepare ('UPDATE `users` SET `email_verified` = 1 WHERE `email` = ?;');
-      $stmt->bind_param ('s', $op->noHTML($_REQUEST['email']));
-      $stmt->execute ();
+      $stmt = $conn->prepare('UPDATE `users` SET `email_verified` = 1 WHERE `email` = ?;');
+      $stmt->bind_param('s', $op->noHTML($_REQUEST['email']));
+      $stmt->execute();
 
-      $stmt = $conn->prepare ('DELETE FROM `verify_email` WHERE `code` = ?;');
-      $stmt->bind_param ('s', $op->noHTML($_REQUEST['code']));
-      $stmt->execute ();
+      $stmt = $conn->prepare('DELETE FROM `verify_email` WHERE `code` = ?;');
+      $stmt->bind_param('s', $op->noHTML($_REQUEST['code']));
+      $stmt->execute();
 
       echo "<script>alert('Thank You! Your Email Has Been Verified'); window.close(); </script>";
 

@@ -14,17 +14,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $db = new DbOperation();
         $res = $db->updateProfile($db->noHTML($_POST['session_id']), $db->noHTML($_POST['forename']), $db->noHTML($_POST['surname']), $db->noHTML($_POST['email']), $db->noHTML($_POST['profile_pic_link']));
 
-        if ( $res === -1 ) {
+        if ($res === -1) {
 
           $response['error'] = true;
-          $response['message'] = 'Session ID Invalid';
+          $response['message'] = "Login Credentials Invalid - You Cannot Have More Than 1 Session Open At The Same Time";
 
-        } else if ( $res === -2 ) {
+        } else if ($res === -2) {
 
           $response['error'] = true;
           $response['message'] = 'Profile Could Not Be Updated';
 
-        } else if ( $res === -3 ) {
+        } else if ($res === -3) {
 
           $response['error'] = true;
           $response['message'] = 'Email Is In Use. Profile Could Not Update';
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
 
         $response['error'] = true;
-        $response['message'] = "All POST Parameters Are Required";
+        $response['message'] = "Request Invalid";
 
     }
 

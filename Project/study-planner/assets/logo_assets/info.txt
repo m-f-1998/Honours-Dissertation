@@ -1,0 +1,9 @@
+
+font name: built_titling_lt
+font link: https://www.fontspring.com/fonts/typodermic/built-titling
+font author: Typodermic
+font author site: http://typodermicfonts.com/
+
+fontColor: {"hex":"#22C4D6"}
+bgColor: {"hex":"#0B345A"}
+iconColor: {"hex":"#22C4D6"}

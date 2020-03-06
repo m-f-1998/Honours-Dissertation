@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.21.1/libexec/bin/yarn.js add react-native-safe-area-contect
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.21.1/libexec/bin/yarn.js add Notifications
 
 PATH: 
   /Users/matthew-mac/.rvm/gems/ruby-2.6.3/bin:/Users/matthew-mac/.rvm/gems/ruby-2.6.3@global/bin:/Users/matthew-mac/.rvm/rubies/ruby-2.6.3/bin:/usr/local/opt/php@7.1/sbin:/usr/local/opt/php@7.2/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/Library/Frameworks/Python.framework/Versions/3.8/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/matthew-mac/opt/GNAT/2019/bin:/Users/matthew-mac/Library/Python/3.6/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/Library/TeX/texbin:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Wireshark.app/Contents/MacOS:/Users/matthew-mac/.rvm/bin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/react-native-safe-area-contect: Not found
+  Error: https://registry.yarnpkg.com/Notifications: Not found
       at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.21.1/libexec/lib/cli.js:66947:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.21.1/libexec/lib/cli.js:140665:22)
       at Request.emit (events.js:321:20)
@@ -37,29 +37,33 @@ npm manifest:
       "eject": "expo eject"
     },
     "dependencies": {
-      "@react-native-community/masked-view": "^0.1.6",
+      "@react-native-community/masked-view": "0.1.5",
       "@react-native-community/netinfo": "4.6.0",
       "expo": "~36.0.0",
       "expo-app-auth": "~8.0.0",
+      "expo-calendar": "~8.0.0",
       "expo-constants": "~8.0.0",
+      "expo-file-system": "~8.0.0",
       "expo-image-picker": "~8.0.1",
       "expo-local-authentication": "~8.0.0",
       "expo-permissions": "~8.0.0",
       "expo-secure-store": "~8.0.0",
+      "expo-web-browser": "~8.0.0",
       "react": "~16.9.0",
       "react-dom": "~16.9.0",
       "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
       "react-native-auth0": "^2.1.1",
+      "react-native-calendars": "^1.260.0",
       "react-native-cn-richtext-editor": "^1.0.42",
       "react-native-elements": "^1.2.7",
       "react-native-gesture-handler": "^1.5.3",
       "react-native-netinfo": "^1.1.0",
       "react-native-prompt-android": "^1.1.0",
       "react-native-reanimated": "~1.4.0",
-      "react-native-safe-area-context": "^0.6.2",
-      "react-native-screens": "^2.0.0-alpha.32",
+      "react-native-safe-area-context": "0.6.0",
+      "react-native-screens": "2.0.0-alpha.12",
       "react-native-web": "~0.11.7",
-      "react-native-webview": "^8.0.5",
+      "react-native-webview": "7.4.3",
       "react-navigation": "^4.1.0",
       "react-navigation-stack": "^2.0.15",
       "react-navigation-tabs": "^2.7.0"
@@ -1147,10 +1151,10 @@ Lockfile:
       wcwidth "^1.0.1"
       ws "^1.1.0"
   
-  "@react-native-community/masked-view@^0.1.6":
-    version "0.1.6"
-    resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.6.tgz#c7f2ac187c1f25aa8c30d11baa8f4398eca3bb84"
-    integrity sha512-PpMoeXwPUoldCRKDuSi+zK5rT+sJTW6ri6RdGPkSKRzU77Q1d9IaR0O5IKvBj0XSdL3p+dcOa05gk35aGDffBQ==
+  "@react-native-community/masked-view@0.1.5":
+    version "0.1.5"
+    resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.5.tgz#25421be6cd943a4b1660b62cfbcd45be8891462c"
+    integrity sha512-Lj1DzfCmW0f4HnmHtEuX8Yy2f7cnUA8r5KGGUuDDGtQt1so6QJkKeUmsnLo2zYDtsF8due6hvIL06Vdo5xxuLQ==
   
   "@react-native-community/netinfo@4.6.0":
     version "4.6.0"
@@ -2313,6 +2317,11 @@ Lockfile:
       path-browserify "^1.0.0"
       url-parse "^1.4.4"
   
+  expo-calendar@~8.0.0:
+    version "8.0.0"
+    resolved "https://registry.yarnpkg.com/expo-calendar/-/expo-calendar-8.0.0.tgz#d986e5c482a3e6c376bdf5d27835a649dff1a582"
+    integrity sha512-jltYJgYaJETCWL3pawjnDQ+spJD8aIpfdhk+GKwNHrMRS36BzgmQArfBm6MGkPT3cIxNIT40hNlTcJjbs69uNw==
+  
   expo-constants@~8.0.0:
     version "8.0.0"
     resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-8.0.0.tgz#e2c5a072dacb4263ccfc57dcb4835ca791960d48"
@@ -2810,7 +2819,7 @@ Lockfile:
     dependencies:
       react-is "^16.7.0"
   
-  hoist-non-react-statics@^3.3.2:
+  hoist-non-react-statics@^3.3.1, hoist-non-react-statics@^3.3.2:
     version "3.3.2"
     resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
     integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -3377,7 +3386,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
     integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
   
-  lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.5.0, lodash@^4.6.0:
+  lodash@^4.0.0, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.5.0, lodash@^4.6.0:
     version "4.17.15"
     resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
     integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
@@ -4398,6 +4407,16 @@ Lockfile:
       jwt-decode "^2.2.0"
       url "^0.11.0"
   
+  react-native-calendars@^1.260.0:
+    version "1.260.0"
+    resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.260.0.tgz#d3decc6dd38051ed7dd90a33a5ead29c87a09a4f"
+    integrity sha512-PPElud4eq/YhqKU1cTNcAkdFpMmfcN0bY/kc+kEiLKnRaV+a6BICURPqzSSbNxNuD857g8FjOEjVCq+8Wt/8Ng==
+    dependencies:
+      hoist-non-react-statics "^3.3.1"
+      lodash "^4.0.0"
+      prop-types "^15.5.10"
+      xdate "^0.8.0"
+  
   react-native-cn-richtext-editor@^1.0.42:
     version "1.0.42"
     resolved "https://registry.yarnpkg.com/react-native-cn-richtext-editor/-/react-native-cn-richtext-editor-1.0.42.tgz#93632b8de3e9050015d99008015b349eee0eeefe"
@@ -4461,10 +4480,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.4.0.tgz#7f1acbf9be08492d834f512700570978052be2f9"
     integrity sha512-tO7nSNNP+iRLVbkcSS5GXyDBb7tSI02+XuRL3/S39EAr35rnvUy2JfeLUQG+fWSObJjnMVhasUDEUwlENk8IXw==
   
-  react-native-safe-area-context@^0.6.2:
-    version "0.6.2"
-    resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-0.6.2.tgz#d467ac8a953426bfbb6d8f417222b0dc3952be7a"
-    integrity sha512-VtBW0JymVCwVt0TGxTv25Co3wtOv3Yb/K5pAUYkjKXNhWFDz5ZwUG/Yho/p0EkWYlFdroJcSqlvVFl2n3AU7SA==
+  react-native-safe-area-context@0.6.0:
+    version "0.6.0"
+    resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-0.6.0.tgz#f53f5a5bcafb462a8798a26b145e68946389ad60"
+    integrity sha512-blY0akr3ZLTuZFdUotmjV+7LVXpBnd5CGFlNhTiarNNGJoHu79K42IJpUpmtg75iC9aWbSW7QHstlP0xz11V0A==
   
   react-native-safe-area-view@^0.14.1, react-native-safe-area-view@^0.14.6:
     version "0.14.8"
@@ -4473,10 +4492,10 @@ Lockfile:
     dependencies:
       hoist-non-react-statics "^2.3.1"
   
-  react-native-screens@^2.0.0-alpha.32:
-    version "2.0.0-alpha.32"
-    resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.0.0-alpha.32.tgz#a23e0458e24984e3a1bd130292f9ad8a118b1e15"
-    integrity sha512-dMw+dGL8UfcS+RQXfUGpdduSkmQN/8l3CJg9+YAwgrgejUpE1YYFnr2gP4GPhie0sBLBdfLj0svNwY1vhnO0Tg==
+  react-native-screens@2.0.0-alpha.12:
+    version "2.0.0-alpha.12"
+    resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.0.0-alpha.12.tgz#35a6ef3b472958e9d35f0ca9e582d0d158f8e379"
+    integrity sha512-x9M7FEdcm97bVDp3pi//nhduJHLFMrmDQs0fq299yx3kHdgHbrmhsa8jgW4HvDQhjyPE0FWADY/GrXFuPRj80w==
     dependencies:
       debounce "^1.2.0"
   
@@ -4511,10 +4530,10 @@ Lockfile:
       prop-types "^15.6.0"
       react-timer-mixin "^0.13.4"
   
-  react-native-webview@^8.0.5:
-    version "8.0.5"
-    resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-8.0.5.tgz#f160d999618bd7c72fdcf5bd291c5366b2ca0aca"
-    integrity sha512-VUTZoap0U3ksBHcX2ddNog1cUbpdM/yPWhFLP3sTg6LXHIw0rNdoQ4PsO+96fNutmPvdcIu98pF5mq2jY87HLg==
+  react-native-webview@7.4.3:
+    version "7.4.3"
+    resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-7.4.3.tgz#e00e92e17f7389d84d09f5900652501ff2665915"
+    integrity sha512-4n72B2D7n1xOQSoCSD1qk9D7JksyT4d6nk8QG9guZKZn3KXQL5EejwE2yhh1TxZRQpr+OD3a96rb+rA/UEnvrQ==
     dependencies:
       escape-string-regexp "2.0.0"
       invariant "2.2.4"
@@ -5579,6 +5598,11 @@ Lockfile:
     dependencies:
       simple-plist "^1.0.0"
       uuid "^3.3.2"
+  
+  xdate@^0.8.0:
+    version "0.8.2"
+    resolved "https://registry.yarnpkg.com/xdate/-/xdate-0.8.2.tgz#d7b033c00485d02695baf0044f4eacda3fc961a3"
+    integrity sha1-17AzwASF0CaVuvAET06s2j/JYaM=
   
   xmlbuilder@^9.0.7:
     version "9.0.7"

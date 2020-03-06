@@ -14,12 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $db = new DbOperation();
         $res = $db->updatePrivacy($db->noHTML($_POST['session_id']), $db->noHTML($_POST['value']));
 
-        if ( $res === -1 ) {
+        if ($res === -1) {
 
           $response['error'] = true;
-          $response['message'] = 'Session ID Invalid';
+          $response['message'] = "Login Credentials Invalid - You Cannot Have More Than 1 Session Open At The Same Time";
 
-        } else if ( $res === -2 ) {
+        } else if ($res === -2) {
 
           $response['error'] = true;
           $response['message'] = 'Privacy Settings Could Not Be Updated';
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
 
         $response['error'] = true;
-        $response['message'] = "All POST Parameters Are Required";
+        $response['message'] = "Request Invalid";
 
     }
 

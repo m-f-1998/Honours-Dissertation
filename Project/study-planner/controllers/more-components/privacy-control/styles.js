@@ -2,9 +2,8 @@ import { StyleSheet } from 'react-native';
 
 /*
   ==========================================
-   Title: Styles For Privacy Control
+   Title: more-components/privacy-control
    Author: Matthew Frankland
-   Description: Stylesheet Items On Privacy Control
   ==========================================
 */
 
@@ -18,11 +17,6 @@ export default StyleSheet.create( {
     paddingRight: 10,
     paddingLeft: 10,
     backgroundColor: '#0B345A'
-  },
-  form: {
-    flex: 1,
-    justifyContent: "center",
-    width: "80%"
   },
   text: {
     textAlign: 'center',

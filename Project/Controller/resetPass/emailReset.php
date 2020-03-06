@@ -4,15 +4,15 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET');
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/dissertation/login/dbOperation.php';
-$response = array ();
+$response = array();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if (isset ($_POST['email'])) {
+    if (isset($_POST['email'])) {
 
-        $db = new DbOperation ();
+        $db = new DbOperation();
 
-        if ($db->resetPass ($db->noHTML($_POST['email']))) {
+        if ($db->resetPass($db->noHTML($_POST['email']))) {
 
             $response['error'] = false;
             $response['message'] = "Password Reset Link Sent To E-Mail If User Exists";
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
 
         $response['error'] = true;
-        $response['message'] = "All Parameters Required";
+        $response['message'] = "Request Invalid";
 
     }
 

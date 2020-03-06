@@ -1,0 +1,128 @@
+@import url("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400");
+
+body {
+  display:flex;
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  background-color: #0B345A;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#form_wrapper {
+  width: 85%;
+  height: 800px;
+  margin:auto;
+  background-color: #FFFFFF;
+  border-radius: 50px;
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 5vh 35px;
+}
+
+#form_structure {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
+}
+
+.input_container {
+  background-color: #E5E5E5;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.input_container:hover {
+  background-color: #EAEAEA;
+}
+
+.input_container, #input_submit {
+  height: 60px;
+  border-radius: 30px;
+  width: 100%;
+}
+
+.input_field {
+  color: #6B6B6B;
+  background-color: inherit;
+  width: 90%;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 400;
+  padding-left: 30px;
+}
+
+.input_field:hover, .input_field:focus {
+  outline: none;
+}
+
+#input_submit {
+  background-color: #6B41DE;
+  padding-left: 0;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+}
+
+#input_submit:hover {
+  background-color: #8C76C7;
+  transition: background-color, 1s;
+  cursor: pointer;
+}
+
+h1, h2, span {
+  text-align: center;
+}
+
+#create_account {
+  display: block;
+  position: relative;
+  top: 30px;
+}
+
+a {
+  text-decoration: none;
+  color: #6B41DE;
+  font-weight: bold;
+}
+
+a:hover {
+  color: #8C76C7;
+}
+
+i {
+  color: #6B6B6B;
+}
+
+img {
+  display: block;
+  margin: 0 auto;
+  border-radius: 20%;
+}
+
+@media screen and (max-width:855px) {
+  img {
+    display: none;
+  }
+  h1 {
+    font-size: 28px;
+  }
+}
+
+@media screen and (max-width:400px) {
+  h1 {
+    font-size: 24px;
+  }
+}
+
+#error {
+  font-style: italic;
+  color: red;
+  text-align: center;
+}

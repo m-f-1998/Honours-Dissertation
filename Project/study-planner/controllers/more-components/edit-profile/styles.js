@@ -2,9 +2,8 @@ import { StyleSheet } from 'react-native';
 
 /*
   ==========================================
-   Title: Styles For Edit Profile
+   Title: more-components/edit-profile
    Author: Matthew Frankland
-   Description: Styles For Editing Profile Component
   ==========================================
 */
 

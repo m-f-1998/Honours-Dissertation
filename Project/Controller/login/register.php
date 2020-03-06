@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
 
         $response['error'] = true;
-        $response['message'] = "All Fields Are Required To Register";
+        $response['message'] = "All POST Parameters Are Required";
 
     }
 

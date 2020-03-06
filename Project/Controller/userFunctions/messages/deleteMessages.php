@@ -14,17 +14,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $db = new DbOperation();
         $res = $db->deleteMessage($db->noHTML($_POST['session_id']), $db->noHTML($_POST['thread_id']));
 
-        if ( $res === -1 ) {
+        if ($res === -1) {
 
           $response['error'] = true;
-          $response['message'] = 'Session ID Invalid';
+          $response['message'] = "Login Credentials Invalid - You Cannot Have More Than 1 Session Open At The Same Time";
 
-        } else if ( $res === -2 ) {
+        } else if ($res === -2) {
 
           $response['error'] = true;
           $response['message'] = 'Message Does Not Belong To This Account';
 
-        } else if ( $res === -3 ) {
+        } else if ($res === -3) {
 
           $response['error'] = true;
           $response['message'] = 'An Internal Error Occured';
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
 
         $response['error'] = true;
-        $response['message'] = "All POST Parameters Are Required";
+        $response['message'] = "Request Invalid";
 
     }
 

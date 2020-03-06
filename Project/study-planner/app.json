@@ -10,7 +10,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo_1024x1024.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
@@ -28,6 +28,7 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "mfrankland.expo.dissertation",
       "supportsTablet": true,
       "infoPlist": {
         "NSFaceIDUsageDescription": "Used To Log In To Higher Education Study Planner"

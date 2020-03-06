@@ -17,19 +17,29 @@ class dbOperation {
 
     }
 
+  /**
+   *
+   * XSS Protection
+   *
+   */
     public function noHTML ($input, $encoding = 'UTF-8') {
         return htmlspecialchars($input, ENT_QUOTES | ENT_HTML5, $encoding);
     }
 
+  /**
+   *
+   * Get All Saved Notes Associated With A Session
+   *
+   */
     public function getNotes ($sessionid) {
 
         $id = $this->getAccountID($sessionid);
 
-        if ( $id != NULL ) {
+        if ($id != NULL) {
 
           $stmt = $this->conn->prepare ('SELECT `id`, `title`, `creation_date` FROM `notes` WHERE `account_id`=?;');
-          $stmt->bind_param ('s', $id);
-          $stmt->execute ();
+          $stmt->bind_param('s', $id);
+          $stmt->execute();
           $result = $stmt->get_result();
           $res = array();
 
@@ -49,26 +59,31 @@ class dbOperation {
 
     }
 
+  /**
+   *
+   * Get The Text Of A Passed Note
+   *
+   */
     public function getNote ($sessionid, $noteid) {
 
         $id = $this->getAccountID($sessionid);
 
-        if ( $id != NULL ) {
+        if ($id != NULL) {
 
           $stmt = $this->conn->prepare ('SELECT `id` FROM `notes` WHERE `account_id`=? AND `id`=?;');
-          $stmt->bind_param ('ss', $id, $noteid);
-          $stmt->execute ();
+          $stmt->bind_param('ss', $id, $noteid);
+          $stmt->execute();
           $stmt->store_result();
-          $stmt->bind_result ($note);
+          $stmt->bind_result($note);
           $stmt->fetch();
 
           if ($note === $noteid) {
-            
+
             $stmt = $this->conn->prepare ('SELECT `notes` FROM `notes_text` WHERE `id`=?;');
-            $stmt->bind_param ('s', $noteid);
-            $stmt->execute ();
+            $stmt->bind_param('s', $noteid);
+            $stmt->execute();
             $stmt->store_result();
-            $stmt->bind_result ($notetext);
+            $stmt->bind_result($notetext);
             $stmt->fetch();
 
             if ($notetext == null) {
@@ -95,30 +110,35 @@ class dbOperation {
 
     }
 
+  /**
+   *
+   * Delete A Passed Note And The Text Associated With It
+   *
+   */
     public function deleteNote ($sessionid, $noteid) {
 
         $id = $this->getAccountID($sessionid);
 
-        if ( $id != NULL ) {
+        if ($id != NULL) {
 
           $stmt = $this->conn->prepare ('SELECT `id` FROM `notes` WHERE `account_id`=? AND `id`=?;');
-          $stmt->bind_param ('ss', $id, $noteid);
-          $stmt->execute ();
+          $stmt->bind_param('ss', $id, $noteid);
+          $stmt->execute();
           $stmt->store_result();
-          $stmt->bind_result ($note);
+          $stmt->bind_result($note);
           $stmt->fetch();
 
           if ($note === $noteid) {
 
             $stmt = $this->conn->prepare ('DELETE FROM `notes_text` WHERE `id`=?;');
-            $stmt->bind_param ('s', $noteid);
+            $stmt->bind_param('s', $noteid);
 
-            if ( $stmt->execute () ) {
+            if ($stmt->execute()) {
 
               $stmt = $this->conn->prepare ('DELETE FROM `notes` WHERE `id`=?;');
-              $stmt->bind_param ('s', $noteid);
+              $stmt->bind_param('s', $noteid);
 
-              if ( $stmt->execute () ) {
+              if ($stmt->execute()) {
 
                 return true;
 
@@ -148,16 +168,21 @@ class dbOperation {
 
     }
 
+  /**
+   *
+   * Save New Text Under A Passed Note ID
+   *
+   */
     public function saveNote ($sessionid, $noteID, $noteText) {
 
         $id = $this->getAccountID($sessionid);
 
-        if ( $id != NULL ) {
+        if ($id != NULL) {
 
-          $stmt = $this->conn->prepare ( 'INSERT INTO `notes_text` ( `id`, `notes` ) VALUES (?, ?) ON DUPLICATE KEY UPDATE `notes`=?;' );
-          $stmt->bind_param ('sss', $noteID, $noteText, $noteText);
+          $stmt = $this->conn->prepare ('INSERT INTO `notes_text` (`id`, `notes`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `notes`=?;');
+          $stmt->bind_param('sss', $noteID, $noteText, $noteText);
 
-          if ( $stmt->execute () ) {
+          if ($stmt->execute()) {
 
             return true;
 
@@ -175,16 +200,21 @@ class dbOperation {
 
     }
 
+  /**
+   *
+   * Create A New Empty Note With A Passed Title
+   *
+   */
     public function newNote ($sessionid, $noteTitle) {
 
         $id = $this->getAccountID($sessionid);
 
-        if ( $id != NULL ) {
+        if ($id != NULL) {
 
-          $stmt = $this->conn->prepare ( 'INSERT INTO `notes` ( `id`, `title`, `creation_date`, `account_id` ) VALUES (UUID(), ?, CURDATE(), ?);' );
-          $stmt->bind_param ('ss', $noteTitle, $id);
+          $stmt = $this->conn->prepare ('INSERT INTO `notes` (`id`, `title`, `creation_date`, `account_id`) VALUES (UUID(), ?, CURDATE(), ?);');
+          $stmt->bind_param('ss', $noteTitle, $id);
 
-          if ( $stmt->execute () ) {
+          if ($stmt->execute()) {
 
             return true;
 
@@ -205,9 +235,9 @@ class dbOperation {
     public function getAccountID ($sessionid) {
 
         $stmt = $this->conn->prepare ('SELECT `account_id` FROM `session_ids` WHERE `code`=?;');
-        $stmt->bind_param ('s', $sessionid);
-        $stmt->execute ();
-        $stmt->bind_result ($id);
+        $stmt->bind_param('s', $sessionid);
+        $stmt->execute();
+        $stmt->bind_result($id);
         $stmt->fetch();
         return $id;
 

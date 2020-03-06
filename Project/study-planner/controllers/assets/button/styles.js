@@ -2,9 +2,8 @@ import { StyleSheet } from 'react-native';
 
 /*
   ==========================================
-   Title:  Custom Button
+   Title: assets/button/style
    Author: Matthew Frankland
-   Description: StyleSheet
   ==========================================
 */
 
@@ -19,27 +18,12 @@ export default StyleSheet.create( {
     borderRadius: 4,
     borderWidth: StyleSheet.hairlineWidth
   },
-  containerEnabled: {
-    opacity: 1
-  },
-  containerDisabled: {
-    opacity: 0.3
-  },
   text: {
     textAlign: "center",
     height: 20
   },
-  nonMainText: {
-    color: "black",
-  },
-  mainText: {
+  textColor: {
     color: "white",
     fontWeight: 'bold'
-  },
-  nonMainContainer: {
-    backgroundColor: 'white'
-  },
-  mainContainer: {
-    backgroundColor: "#6b41de"
   }
 } );

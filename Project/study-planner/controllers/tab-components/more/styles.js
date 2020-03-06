@@ -2,9 +2,8 @@ import { StyleSheet } from 'react-native';
 
 /*
   ==========================================
-   Title: Styles For More Tab
+   Title: tab-components/more
    Author: Matthew Frankland
-   Description: Stylesheet For More Page
   ==========================================
 */
 

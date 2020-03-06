@@ -17,10 +17,20 @@ class dbOperation {
 
     }
 
+  /**
+   *
+   * XSS Protection
+   *
+   */
     public function noHTML ($input, $encoding = 'UTF-8') {
         return htmlspecialchars($input, ENT_QUOTES | ENT_HTML5, $encoding);
     }
 
+  /**
+   *
+   * Login Verification
+   *
+   */
     public function userLogin ($email, $pass) {
 
         $stmt = $this->conn->prepare ('SELECT `pass` FROM `users` WHERE `email` = ?;');
@@ -43,6 +53,11 @@ class dbOperation {
 
     }
 
+  /**
+   *
+   * Get Users ID Based On Email
+   *
+   */
     public function getID ($email) {
 
         $stmt = $this->conn->prepare ('SELECT `id` FROM `users` WHERE `email`=?;');
@@ -54,8 +69,13 @@ class dbOperation {
 
     }
 
+  /**
+   *
+   * Get A User's Safe Account Details (Not Password etc.) Based On Email
+   *
+   */
     public function getAccount ($email) {
-        $stmt = $this->conn->prepare ('SELECT `surname`, `forename`, `profile_pic_link`, `email`, `university_id`, `is_lecturer`, `email_verified` FROM `users` WHERE `email`=?;');
+        $stmt = $this->conn->prepare ('SELECT `surname`, `forename`, `profile_pic_link`, `email`, `university_id`, `is_lecturer`, `is_admin`, `email_verified` FROM `users` WHERE `email`=?;');
         $stmt->bind_param ('s', $email);
         $stmt->execute ();
         $result = $stmt->get_result();
@@ -70,18 +90,11 @@ class dbOperation {
         return $res;
     }
 
-    public function isLecturer ($email) {
-
-        $stmt = $this->conn->prepare ('SELECT `is_lecturer` FROM `users` WHERE `email` = ?;');
-        $stmt->bind_param ('s', $email);
-        $stmt->execute ();
-        $stmt->store_result();
-        $stmt->bind_result ($admin);
-        $stmt->fetch();
-        return $admin;
-
-    }
-
+  /**
+   *
+   * Send A Reset Password Request
+   *
+   */
     public function resetPass ($email) {
 
         if ($this->isUserExist ($email)) {
@@ -111,13 +124,18 @@ class dbOperation {
 
     }
 
+  /**
+   *
+   * Register A New User On The System
+   *
+   */
     public function createUser ($email, $pass) {
 
         if (!$this->isUserExist ($email)) {
 
             $options = ['cost' => 12,];
             $password = password_hash($pass, PASSWORD_BCRYPT, $options);
-            $stmt = $this->conn->prepare ('INSERT INTO `users` (`id`, `surname`, `forename`, `profile_pic_link`, `email`, `pass`, `university_id`, `is_lecturer`, `email_verified`) VALUES (UUID(), NULL, NULL, NULL, ?, ?, 1, false, false);');
+            $stmt = $this->conn->prepare ('INSERT INTO `users` (`id`, `surname`, `forename`, `profile_pic_link`, `email`, `pass`, `university_id`, `is_lecturer`, `is_admin`, `email_verified`) VALUES (UUID(), NULL, NULL, NULL, ?, ?, 1, false, false, false);');
             $stmt->bind_param ('ss', $email, $password);
 
             if ($stmt->execute ()) {
@@ -149,6 +167,47 @@ class dbOperation {
 
     }
 
+    /**
+     *
+     * Register A New Admin User On The System
+     *
+     */
+      public function createAdminUser ($email, $pass, $forename, $surname, $uid) {
+
+          if (!$this->isUserExist ($email)) {
+
+              $options = ['cost' => 12,];
+              $password = password_hash($pass, PASSWORD_BCRYPT, $options);
+              $stmt = $this->conn->prepare ('INSERT INTO `users` (`id`, `surname`, `forename`, `profile_pic_link`, `email`, `pass`, `university_id`, `is_lecturer`, `is_admin`, `email_verified`) VALUES (UUID(), ?, ?, "https://www.matthewfrankland.co.uk/images/admin-register.png", ?, ?, ?, false, true, false);');
+              $stmt->bind_param ('sssss', $surname, $forename, $email, $password, $uid);
+
+              if ($stmt->execute ()) {
+
+                  if ($this->verificationEmail($email)) {
+
+                    return true;
+
+                  }
+
+              } else {
+
+                  return -2;
+
+              }
+
+          } else {
+
+              return -1;
+
+          }
+
+      }
+
+  /**
+   *
+   * Send An Email With A Generated Email Verification Link
+   *
+   */
     public function verificationEmail ($email) {
 
       $code = md5(uniqid(mt_rand()));

@@ -1,0 +1,11 @@
+#!/bin/sh
+while true
+do
+curl https://matthewfrankland.co.uk/dissertation/session-events/delete-classes.php
+curl https://matthewfrankland.co.uk/dissertation/session-events/delete-education.php
+curl https://matthewfrankland.co.uk/dissertation/session-events/delete-events.php
+curl https://matthewfrankland.co.uk/dissertation/session-events/delete-reset.php
+curl https://matthewfrankland.co.uk/dissertation/session-events/delete-session.php
+curl https://matthewfrankland.co.uk/dissertation/session-events/dissasociate-lecturers.php
+sleep 6000
+done

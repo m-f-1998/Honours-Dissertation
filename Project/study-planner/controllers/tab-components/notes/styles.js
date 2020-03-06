@@ -2,9 +2,8 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 /*
   ==========================================
-   Title: Styles For Notes
+   Title: tab-components/notes
    Author: Matthew Frankland
-   Description: Common Styles Between Notes View And Component
   ==========================================
 */
 

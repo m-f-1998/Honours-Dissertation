@@ -1,7 +1,7 @@
-import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import React from "react";
+import { Text, TouchableOpacity } from "react-native";
 
-import styles from "./styles.js";
+import Styles from "./styles.js";
 
 /*
   ==========================================
@@ -12,21 +12,17 @@ import styles from "./styles.js";
 */
 
 class Button extends React.Component {
-  render() {
+  render () {
     const containerStyle = [
-      this.props.notMain ? styles.nonMainContainer : styles.mainContainer,
-      styles.container, this.props.disabled ? styles.containerDisabled : styles.containerEnabled
-    ];
-    const testStyle = [
-      this.props.notMain ? styles.nonMainText : styles.mainText,
-      styles.text
+      this.props.main ? { backgroundColor: "#6b41de" } : { backgroundColor: "white" },
+      Styles.container, this.props.disabled ? { opacity: 0.3 } : { opacity: 1 }
     ];
     return (
       <TouchableOpacity style={ containerStyle } onPress={ this.props.onPress } disabled={ this.props.disabled }>
-        <Text style={ testStyle }>{ this.props.label }</Text>
+        <Text style={ [ this.props.main ? Styles.textColor : { color: "black" }, Styles.text ] }>{ this.props.label }</Text>
       </TouchableOpacity>
     );
-  }
+  };
 }
 
 export default Button;

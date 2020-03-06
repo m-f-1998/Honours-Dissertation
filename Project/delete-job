@@ -1,7 +1,0 @@
-#!/bin/sh
-while true
-do
-curl https://matthewfrankland.co.uk/dissertation/confirmEmail/delete-confirm.php
-curl https://matthewfrankland.co.uk/dissertation/resetPass/delete-reset.php
-sleep 6000
-done

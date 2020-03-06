@@ -2,9 +2,8 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 /*
   ==========================================
-   Title: No Connection
+   Title: assets/no-connection/style
    Author: Matthew Frankland
-   Description: StyleSheet
   ==========================================
 */
 
@@ -19,12 +18,6 @@ export default StyleSheet.create( {
     position: 'absolute',
     top: 0,
     zIndex: 1
-  },
-  shortContainer: {
-    height: 38
-  },
-  largeContainer: {
-    height: 60
   },
   text: {
     color: '#fff',
